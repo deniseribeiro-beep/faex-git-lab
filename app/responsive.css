@@ -1,0 +1,54 @@
+html,body{max-width:100%;overflow-x:hidden}
+.app-shell{height:100dvh;min-height:0;overflow:hidden}
+.workspace{height:calc(100dvh - 130px);min-width:0;overflow:hidden}
+.sidebar,.lesson{scrollbar-width:none}
+.sidebar::-webkit-scrollbar,.lesson::-webkit-scrollbar{display:none}
+.lesson{height:100%;min-width:0;overflow:hidden;padding:14px clamp(16px,2.4vw,34px);display:grid;grid-template-columns:minmax(0,1.35fr) minmax(330px,.85fr);grid-template-rows:auto auto minmax(0,1fr);gap:10px 14px}
+.mission-heading{grid-column:1/-1}
+.expected-card{grid-column:1;margin:0}
+.why-card{grid-column:2;margin:0}
+.tree-card{grid-column:1;min-height:0;display:flex;flex-direction:column}
+.terminal{grid-column:2;min-height:0;margin:0;display:flex;flex-direction:column}
+.feedback{position:fixed;right:18px;bottom:18px;z-index:30;width:min(520px,calc(100vw - 36px));margin:0;box-shadow:0 14px 38px rgba(16,42,35,.22)}
+.tree-canvas{flex:1;min-height:0}
+.tree-canvas svg{height:100%;max-height:none}
+.terminal-history{flex:1;min-height:0;max-height:none}
+.command-row{flex:0 0 auto}
+.mission-heading h1{font-size:clamp(1.75rem,2.5vw,2.35rem);margin:5px 0 3px}
+.mission-heading p{font-size:1rem}
+.expected-card{padding:10px 14px;min-height:52px}
+.why-card{display:flex;align-items:flex-start;gap:11px;margin:0 0 10px;padding:10px 14px;border:1px solid #ead79e;border-radius:12px;background:#fffaf0;color:#624b0d}
+.why-card>svg{width:20px;height:20px;flex:0 0 auto;color:#9c7100;margin-top:1px}
+.why-card strong{font-size:.82rem}
+.why-card p{margin:2px 0 0;color:#695d3b;font-size:.82rem;line-height:1.35}
+.tree-canvas{overflow:hidden}
+.tree-canvas svg{display:block;min-width:0;width:100%;height:100%;max-height:none}
+.terminal{margin-top:0}
+.terminal-history{min-height:38px;max-height:82px;padding-top:9px}
+.command-row{padding:9px 14px 12px}
+.command-row input{padding:10px 13px}
+.command-row button{min-height:41px}
+.feedback{padding:10px 14px}
+.commit-id{font-size:14px}.commit-msg{font-size:12px}.branch-name{font-size:12px}.head-label{font-size:11px}.branch-line{stroke-width:5px}
+.tree-status{min-width:0;flex-wrap:wrap}
+.tree-status code,.tree-status b{overflow-wrap:anywhere}
+
+@media(max-height:820px) and (min-width:851px){
+ .topbar{height:68px}.logo-mark{width:39px;height:39px}.workspace{height:calc(100dvh - 104px)}footer{height:36px}
+ .sidebar{max-height:calc(100dvh - 68px);padding-top:14px}.mission-link{min-height:48px;padding-block:7px}
+ .lesson{padding:10px 16px}.mission-heading h1{font-size:1.7rem}
+ .tree-label{height:38px}.tree-status{height:36px}.terminal-title{height:35px}
+ .terminal-history{min-height:28px;max-height:58px}.feedback-icon{width:32px;height:32px}
+}
+@media(max-width:850px){
+ .app-shell{height:auto;min-height:100dvh;overflow:visible}.workspace{height:auto;overflow:visible}
+ .sidebar{max-width:100%;overflow-x:auto;scrollbar-width:none}.sidebar::-webkit-scrollbar{display:none}
+ .lesson{height:auto;overflow:visible;display:block}.mission-heading,.expected-card,.why-card,.tree-card,.terminal{margin-bottom:12px}.tree-canvas svg{height:auto;max-height:none}.tree-label>span:last-child{display:none}.feedback{left:10px;right:10px;bottom:10px;width:auto}
+}
+@media(max-width:520px){
+ .mission-heading h1{font-size:1.65rem}.mission-heading p{font-size:.95rem}.expected-card{gap:5px;padding:10px 12px}
+ .expected-card code{font-size:.96rem}.why-card p{font-size:.78rem}.tree-label{padding-inline:12px}
+ .tree-status{height:auto;min-height:44px;gap:7px 10px;padding:7px 12px}.terminal-history{font-size:12px}
+ .command-row{padding-inline:10px}.feedback{padding:10px}.lesson{padding:16px 10px 24px}
+}
+@media print{.app-shell{height:auto;overflow:visible}.workspace,.lesson{height:auto;overflow:visible}}

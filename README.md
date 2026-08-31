@@ -32,4 +32,3 @@ pnpm build
 ## Publicação
 
 O workflow `ci.yml` valida testes e build. O workflow `pages.yml` publica o cliente gerado no GitHub Pages quando houver push na branch `main`.
-
