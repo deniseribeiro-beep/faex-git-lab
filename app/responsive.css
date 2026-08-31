@@ -12,7 +12,9 @@ html,body{max-width:100%;overflow-x:hidden}
 .feedback{position:fixed;right:18px;bottom:18px;z-index:30;width:min(520px,calc(100vw - 36px));margin:0;box-shadow:0 14px 38px rgba(16,42,35,.22)}
 .tree-canvas{flex:1;min-height:0}
 .tree-canvas svg{height:100%;max-height:none}
-.terminal-history{flex:1;min-height:0;max-height:none}
+.terminal-history{flex:0 0 auto;min-height:0;max-height:none;overflow:hidden;padding:14px 18px 2px;font:14px Consolas,monospace}
+.history-entry{margin-bottom:10px}.history-command{display:flex;align-items:baseline;gap:8px;min-width:0}.history-command span{flex:0 0 auto;color:#59d7a7}.history-command code{color:#f4fff9;font:inherit;overflow-wrap:anywhere;white-space:pre-wrap}.terminal-history small{display:block;color:#a9bbb4;margin:4px 0 0 24px;overflow-wrap:anywhere}
+.command-row{grid-template-columns:auto minmax(0,1fr) auto}.prompt{color:#58e6af;font:bold 15px Consolas;white-space:nowrap}.prompt span{color:#59d7a7}.command-row input{border:0;border-bottom:1px solid #53625d;background:transparent;border-radius:0;padding-inline:4px}.command-row input:focus{border-color:#58e6af;box-shadow:none}
 .command-row{flex:0 0 auto}
 .mission-heading h1{font-size:clamp(1.75rem,2.5vw,2.35rem);margin:5px 0 3px}
 .mission-heading p{font-size:1rem}
@@ -24,7 +26,7 @@ html,body{max-width:100%;overflow-x:hidden}
 .tree-canvas{overflow:hidden}
 .tree-canvas svg{display:block;min-width:0;width:100%;height:100%;max-height:none}
 .terminal{margin-top:0}
-.terminal-history{min-height:38px;max-height:82px;padding-top:9px}
+.terminal-history{min-height:0;max-height:none;padding-top:9px}
 .command-row{padding:9px 14px 12px}
 .command-row input{padding:10px 13px}
 .command-row button{min-height:41px}
@@ -38,7 +40,7 @@ html,body{max-width:100%;overflow-x:hidden}
  .sidebar{max-height:calc(100dvh - 68px);padding-top:14px}.mission-link{min-height:48px;padding-block:7px}
  .lesson{padding:10px 16px}.mission-heading h1{font-size:1.7rem}
  .tree-label{height:38px}.tree-status{height:36px}.terminal-title{height:35px}
- .terminal-history{min-height:28px;max-height:58px}.feedback-icon{width:32px;height:32px}
+ .terminal-history{min-height:0;max-height:none}.feedback-icon{width:32px;height:32px}
 }
 @media(max-width:850px){
  .app-shell{height:auto;min-height:100dvh;overflow:visible}.workspace{height:auto;overflow:visible}
@@ -49,6 +51,7 @@ html,body{max-width:100%;overflow-x:hidden}
  .mission-heading h1{font-size:1.65rem}.mission-heading p{font-size:.95rem}.expected-card{gap:5px;padding:10px 12px}
  .expected-card code{font-size:.96rem}.why-card p{font-size:.78rem}.tree-label{padding-inline:12px}
  .tree-status{height:auto;min-height:44px;gap:7px 10px;padding:7px 12px}.terminal-history{font-size:12px}
- .command-row{padding-inline:10px}.feedback{padding:10px}.lesson{padding:16px 10px 24px}
+ .command-row{padding-inline:10px;grid-template-columns:1fr auto}.command-row .prompt{grid-column:1/-1}.feedback{padding:10px}.lesson{padding:16px 10px 24px}
 }
 @media print{.app-shell{height:auto;overflow:visible}.workspace,.lesson{height:auto;overflow:visible}}
+
