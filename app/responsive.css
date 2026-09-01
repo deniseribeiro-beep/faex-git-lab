@@ -14,7 +14,7 @@ html,body{max-width:100%;overflow-x:hidden}
 .tree-canvas svg{height:100%;max-height:none}
 .terminal-history{flex:0 0 auto;min-height:0;max-height:none;overflow:hidden;padding:14px 18px 2px;font:14px Consolas,monospace}
 .history-entry{margin-bottom:10px}.history-command{display:flex;align-items:baseline;gap:8px;min-width:0}.history-command span{flex:0 0 auto;color:#59d7a7}.history-command code{color:#f4fff9;font:inherit;overflow-wrap:anywhere;white-space:pre-wrap}.terminal-history small{display:block;color:#a9bbb4;margin:4px 0 0 24px;overflow-wrap:anywhere}
-.command-row{grid-template-columns:auto minmax(0,1fr) auto}.prompt{color:#58e6af;font:bold 15px Consolas;white-space:nowrap}.prompt span{color:#59d7a7}.command-row input{border:0;border-bottom:1px solid #53625d;background:transparent;border-radius:0;padding-inline:4px}.command-row input:focus{border-color:#58e6af;box-shadow:none}
+.command-row{grid-template-columns:minmax(0,1fr) auto}.command-row .prompt{grid-column:1/-1}.prompt{color:#58e6af;font:bold 15px Consolas;white-space:nowrap}.prompt span{color:#59d7a7}.command-row input{min-width:0;border:0;border-bottom:1px solid #53625d;background:transparent;border-radius:0;padding-inline:4px}.command-row input:focus{border-color:#58e6af;box-shadow:none}.command-row button{position:static;white-space:nowrap}
 .command-row{flex:0 0 auto}
 .mission-heading h1{font-size:clamp(1.75rem,2.5vw,2.35rem);margin:5px 0 3px}
 .mission-heading p{font-size:1rem}
