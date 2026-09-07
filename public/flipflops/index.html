@@ -1,0 +1,563 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Aula prática FAEX de lógica sequencial, latches, flip-flops, registradores e PC." />
+  <title>FAEX | Lógica Sequencial Lab</title>
+  <style>
+    :root {
+      --blue: #00538a;
+      --blue-dark: #083f66;
+      --teal: #00796b;
+      --teal-soft: #e8f5f2;
+      --blue-soft: #eef5fb;
+      --ink: #1f2933;
+      --muted: #5c6773;
+      --border: #cfd8e3;
+      --surface: #ffffff;
+      --surface-2: #f6f8fb;
+      --danger: #b42318;
+      --danger-soft: #fef3f2;
+      --success: #067647;
+      --success-soft: #ecfdf3;
+      --shadow: 0 10px 28px rgba(0, 53, 94, .08);
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      color: var(--ink);
+      background: #f1f4f7;
+      line-height: 1.5;
+    }
+    button, input, select { font: inherit; }
+    button { cursor: pointer; }
+    .shell { max-width: 1180px; margin: 0 auto; padding: 24px; }
+    .hero {
+      background: linear-gradient(135deg, #ffffff 0%, #f5fbff 100%);
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      box-shadow: var(--shadow);
+      padding: 28px;
+    }
+    .eyebrow { color: var(--teal); font-weight: 700; font-size: .92rem; margin: 0 0 6px; }
+    h1 { margin: 0; color: var(--blue-dark); font-size: clamp(2rem, 4vw, 3.2rem); line-height: 1.1; }
+    h2, h3 { color: var(--blue-dark); }
+    .lead { max-width: 860px; font-size: 1.08rem; margin: 14px 0 0; }
+    .pbl {
+      margin-top: 18px;
+      padding: 14px 16px;
+      border-left: 5px solid var(--teal);
+      background: var(--teal-soft);
+      border-radius: 10px;
+      font-weight: 700;
+    }
+    .nav {
+      margin-top: 18px;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+    }
+    .nav button, .btn {
+      min-height: 46px;
+      border: 1px solid var(--border);
+      border-radius: 11px;
+      background: var(--surface);
+      color: var(--blue-dark);
+      font-weight: 700;
+      padding: 10px 14px;
+    }
+    .nav button.active, .btn.primary {
+      background: var(--blue);
+      color: #fff;
+      border-color: var(--blue);
+    }
+    .btn.secondary { background: var(--teal-soft); color: var(--teal); border-color: #8ed0c6; }
+    .btn.danger { background: var(--danger-soft); color: var(--danger); border-color: #f3b7b2; }
+    .progress-wrap { margin-top: 16px; }
+    .progress-track { height: 9px; border-radius: 99px; background: #dfe6ed; overflow: hidden; }
+    .progress-bar { height: 100%; width: 0%; background: linear-gradient(90deg, var(--blue), var(--teal)); transition: width .2s ease; }
+    .progress-label { margin-top: 6px; color: var(--muted); font-size: .9rem; }
+    .panel {
+      margin-top: 22px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      box-shadow: var(--shadow);
+      padding: 24px;
+    }
+    .panel[hidden] { display: none; }
+    .grid-2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
+    .card {
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      background: var(--surface);
+      padding: 18px;
+    }
+    .card.soft { background: var(--surface-2); }
+    .card h3 { margin-top: 0; }
+    .formula {
+      display: inline-block;
+      margin-top: 10px;
+      padding: 9px 12px;
+      border-radius: 9px;
+      background: var(--blue-soft);
+      font-family: Consolas, 'Courier New', monospace;
+      font-weight: 700;
+    }
+    .callout {
+      margin-top: 16px;
+      padding: 14px 16px;
+      border: 1px solid #96d3ca;
+      background: var(--teal-soft);
+      color: #075f55;
+      border-radius: 12px;
+      font-weight: 700;
+    }
+    .hint { color: var(--muted); font-size: .92rem; }
+    .controls { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+    .metric-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin-top: 14px; }
+    .metric {
+      text-align: center;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 14px;
+      background: #fff;
+    }
+    .metric small { color: var(--muted); display: block; }
+    .metric strong { display: block; font-size: 2rem; margin-top: 4px; color: var(--blue-dark); }
+    .status {
+      margin-top: 12px;
+      padding: 12px 14px;
+      border-radius: 10px;
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+    }
+    .status.good { background: var(--success-soft); border-color: #a6f4c5; color: var(--success); }
+    .status.bad { background: var(--danger-soft); border-color: #f3b7b2; color: var(--danger); }
+    table { width: 100%; border-collapse: collapse; margin-top: 12px; }
+    th, td { border: 1px solid var(--border); padding: 9px 10px; text-align: left; }
+    th { background: var(--blue); color: #fff; }
+    .table-wrap { overflow-x: auto; }
+    label { font-weight: 700; display: block; }
+    input, select {
+      width: 100%;
+      min-height: 44px;
+      margin-top: 6px;
+      padding: 8px 10px;
+      border: 1px solid var(--border);
+      border-radius: 9px;
+      background: #fff;
+    }
+    .diagram {
+      width: 100%;
+      min-height: 230px;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      background: linear-gradient(#fff, #fbfdff);
+      padding: 12px;
+    }
+    .diagram svg { width: 100%; height: auto; display: block; }
+    .task-list { margin: 0; padding-left: 22px; }
+    .task-list li { margin: 8px 0; }
+    .footer {
+      margin: 24px 0 8px;
+      color: var(--muted);
+      font-size: .9rem;
+      text-align: center;
+    }
+    code { font-family: Consolas, 'Courier New', monospace; }
+    @media (max-width: 800px) {
+      .shell { padding: 14px; }
+      .hero, .panel { padding: 18px; border-radius: 16px; }
+      .nav { grid-template-columns: 1fr 1fr; }
+      .grid-2 { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 520px) {
+      .nav, .controls, .metric-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <section class="hero">
+      <p class="eyebrow">FAEX • Arquitetura de Computadores • Semana 05</p>
+      <h1>Da lógica combinacional à memória</h1>
+      <p class="lead">Aula prática via simulador sobre estado sequencial, SR latch, D latch, D flip-flop, registrador e Program Counter.</p>
+      <div class="pbl">Pergunta PBL: como um circuito consegue lembrar um valor se a lógica combinacional depende apenas das entradas atuais?</div>
+      <div class="nav" aria-label="Etapas da aula">
+        <button type="button" data-panel="intro">1. Combinacional × sequencial</button>
+        <button type="button" data-panel="sr">2. SR Latch</button>
+        <button type="button" data-panel="dlatch">3. D Latch</button>
+        <button type="button" data-panel="dff">4. D Flip-Flop</button>
+        <button type="button" data-panel="reg">5. Registrador</button>
+        <button type="button" data-panel="pc">6. PC / contador</button>
+      </div>
+      <div class="progress-wrap">
+        <div class="progress-track"><div id="progress" class="progress-bar"></div></div>
+        <div id="progressLabel" class="progress-label">0 de 6 etapas exploradas</div>
+      </div>
+    </section>
+
+    <section id="panel-intro" class="panel">
+      <h2>1. O que muda quando o circuito ganha memória?</h2>
+      <div class="grid-2">
+        <div class="card">
+          <h3>Lógica combinacional</h3>
+          <p>A saída depende somente das entradas atuais. Se as entradas forem iguais, a saída será a mesma.</p>
+          <span class="formula">Y(t) = f(A(t), B(t))</span>
+          <p class="hint">Exemplos: AND, OR, XOR, MUX e decoder.</p>
+        </div>
+        <div class="card">
+          <h3>Lógica sequencial</h3>
+          <p>A saída depende das entradas atuais <strong>e do estado armazenado anteriormente</strong>.</p>
+          <span class="formula">Q(t+1) = f(entrada(t), Q(t))</span>
+          <p class="hint">Estado é a informação necessária para explicar o comportamento futuro do circuito.</p>
+        </div>
+      </div>
+      <div class="callout">Ideia central: circuitos sequenciais conseguem lembrar valores entre ciclos.</div>
+    </section>
+
+    <section id="panel-sr" class="panel" hidden>
+      <h2>2. SR Latch — Set e Reset</h2>
+      <div class="grid-2">
+        <div class="card soft">
+          <p>O SR latch armazena <strong>1 bit</strong>. As entradas S e R determinam a ação sobre Q.</p>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>S</th><th>R</th><th>Ação</th></tr></thead>
+              <tbody>
+                <tr><td>0</td><td>0</td><td>Mantém Q</td></tr>
+                <tr><td>1</td><td>0</td><td>SET → Q = 1</td></tr>
+                <tr><td>0</td><td>1</td><td>RESET → Q = 0</td></tr>
+                <tr><td>1</td><td>1</td><td>Estado inválido</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="card">
+          <div class="controls">
+            <button id="srS" class="btn" type="button">S = 0</button>
+            <button id="srR" class="btn" type="button">R = 0</button>
+          </div>
+          <button id="srApply" class="btn primary" style="width:100%; margin-top:10px" type="button">Aplicar entradas</button>
+          <div class="metric-grid">
+            <div class="metric"><small>Q</small><strong id="srQ">0</strong></div>
+            <div class="metric"><small>Q̅</small><strong id="srQb">1</strong></div>
+          </div>
+          <div id="srMsg" class="status">Estado inicial: Q = 0.</div>
+        </div>
+      </div>
+      <div class="callout">Desafio: faça SET, depois HOLD, depois RESET e por último experimente S = R = 1. Explique o problema do estado inválido.</div>
+    </section>
+
+    <section id="panel-dlatch" class="panel" hidden>
+      <h2>3. D Latch — sensível ao nível do clock</h2>
+      <div class="grid-2">
+        <div class="card soft">
+          <p><strong>CLK = 1:</strong> o latch fica transparente e Q acompanha D.</p>
+          <p><strong>CLK = 0:</strong> o latch fica opaco e Q mantém o valor anterior.</p>
+          <div class="callout">A entrada D elimina a combinação inválida do SR latch.</div>
+        </div>
+        <div class="card">
+          <div class="controls">
+            <button id="dlD" class="btn" type="button">D = 0</button>
+            <button id="dlClk" class="btn" type="button">CLK = 0</button>
+          </div>
+          <div class="metric" style="margin-top:14px"><small>Q armazenado</small><strong id="dlQ">0</strong></div>
+          <div id="dlMsg" class="status">CLK = 0: o latch está opaco.</div>
+        </div>
+      </div>
+      <div class="callout">Desafio: deixe CLK = 1 e altere D algumas vezes. Depois coloque CLK = 0 e altere D novamente. Compare o comportamento de Q.</div>
+    </section>
+
+    <section id="panel-dff" class="panel" hidden>
+      <h2>4. D Flip-Flop — sensível à borda</h2>
+      <div class="grid-2">
+        <div class="card soft">
+          <p>O D flip-flop captura D somente na <strong>borda de subida do clock (0 → 1)</strong>.</p>
+          <span class="formula">CLK ↑  →  Q ← D</span>
+          <p>Fora desse evento, Q mantém o estado anterior.</p>
+          <div class="diagram">
+            <svg viewBox="0 0 520 220" role="img" aria-label="Diagrama de flip-flop D">
+              <line x1="20" y1="70" x2="150" y2="70" stroke="#00538a" stroke-width="5"/>
+              <text x="28" y="52" font-size="24" fill="#083f66" font-weight="700">D</text>
+              <line x1="20" y1="155" x2="150" y2="155" stroke="#00538a" stroke-width="5"/>
+              <text x="28" y="138" font-size="22" fill="#083f66" font-weight="700">CLK</text>
+              <rect x="150" y="32" width="220" height="155" rx="16" fill="#e8f5f2" stroke="#00796b" stroke-width="4"/>
+              <text x="260" y="98" text-anchor="middle" font-size="27" fill="#075f55" font-weight="700">D Flip-Flop</text>
+              <text x="260" y="136" text-anchor="middle" font-size="19" fill="#075f55">captura em ↑</text>
+              <line x1="370" y1="70" x2="500" y2="70" stroke="#00796b" stroke-width="5"/>
+              <text x="468" y="52" font-size="24" fill="#075f55" font-weight="700">Q</text>
+            </svg>
+          </div>
+        </div>
+        <div class="card">
+          <div class="controls">
+            <button id="dffD" class="btn" type="button">D = 0</button>
+            <button id="dffClk" class="btn" type="button">CLK = 0</button>
+          </div>
+          <div class="metric" style="margin-top:14px"><small>Q</small><strong id="dffQ">0</strong></div>
+          <div id="dffMsg" class="status">Mude D sem gerar uma borda de subida e observe Q.</div>
+        </div>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Passo</th><th>D</th><th>CLK antes</th><th>CLK depois</th><th>Evento</th><th>Q</th></tr></thead>
+          <tbody id="dffTrace"></tbody>
+        </table>
+      </div>
+      <div class="callout">Desafio: prove que alterar D não altera Q até ocorrer uma nova borda 0 → 1.</div>
+    </section>
+
+    <section id="panel-reg" class="panel" hidden>
+      <h2>5. Registrador de 4 bits</h2>
+      <div class="grid-2">
+        <div class="card soft">
+          <p>Um registrador agrupa vários elementos de estado para guardar uma palavra. Aqui usamos 4 bits para visualização; no projeto, os registradores serão de 32 bits.</p>
+          <p><strong>LOAD = 1:</strong> no pulso, o novo valor é armazenado.</p>
+          <p><strong>LOAD = 0:</strong> no pulso, o valor anterior é mantido.</p>
+        </div>
+        <div class="card">
+          <label for="regInput">Entrada decimal (0 a 15)</label>
+          <input id="regInput" type="number" min="0" max="15" value="11" />
+          <div class="controls" style="margin-top:10px">
+            <button id="regLoad" class="btn" type="button">LOAD = 1</button>
+            <button id="regPulse" class="btn primary" type="button">Gerar pulso ↑</button>
+          </div>
+          <div class="metric-grid">
+            <div class="metric"><small>Entrada binária</small><strong id="regIn">1011</strong></div>
+            <div class="metric"><small>Q armazenado</small><strong id="regQ">0000</strong></div>
+          </div>
+          <div id="regMsg" class="status">Pronto para armazenar.</div>
+        </div>
+      </div>
+      <div class="callout">Desafio: armazene 1011. Depois coloque LOAD = 0, altere a entrada para 0011 e gere outro pulso. Q deve continuar 1011.</div>
+    </section>
+
+    <section id="panel-pc" class="panel" hidden>
+      <h2>6. Program Counter como estado sequencial</h2>
+      <div class="grid-2">
+        <div class="card soft">
+          <p>O <strong>PC</strong> guarda o endereço da próxima instrução. Ele precisa manter estado entre ciclos.</p>
+          <ul>
+            <li>manter o valor;</li>
+            <li>incrementar;</li>
+            <li>carregar outro endereço em salto/desvio;</li>
+            <li>reiniciar com reset.</li>
+          </ul>
+          <p class="hint">A simulação usa 4 bits para tornar o comportamento visível. O projeto usará 32 bits.</p>
+        </div>
+        <div class="card">
+          <div class="grid-2">
+            <label>Operação
+              <select id="pcOp">
+                <option value="hold">Manter</option>
+                <option value="inc" selected>Incrementar</option>
+                <option value="load">Carregar / salto</option>
+                <option value="reset">Reset</option>
+              </select>
+            </label>
+            <label>Valor para load
+              <input id="pcLoad" type="number" min="0" max="15" value="9" />
+            </label>
+          </div>
+          <button id="pcPulse" class="btn primary" style="width:100%; margin-top:10px" type="button">Gerar pulso ↑</button>
+          <div class="metric" style="margin-top:14px"><small>PC atual</small><strong id="pcQ">0000</strong><small id="pcDec">decimal: 0</small></div>
+          <div id="pcMsg" class="status">Estado inicial.</div>
+        </div>
+      </div>
+      <div class="callout">Desafio final: incremente duas vezes, carregue 9, incremente uma vez e execute reset. Explique por que o PC precisa guardar estado.</div>
+    </section>
+
+    <section class="panel">
+      <h2>Evidência da aula</h2>
+      <p>Cada dupla deve registrar em <code>docs/semanas/Semana-05/simulacao-sequencial.md</code>:</p>
+      <ol class="task-list">
+        <li>diferença entre circuito combinacional e sequencial;</li>
+        <li>tabela observada do SR latch e explicação do estado inválido;</li>
+        <li>diferença observada entre D latch e D flip-flop;</li>
+        <li>rastro de pelo menos 6 eventos do DFF;</li>
+        <li>experimento do registrador com LOAD = 1 e LOAD = 0;</li>
+        <li>sequência do PC: incremento → load → incremento → reset;</li>
+        <li>conclusão explicando como flip-flops permitem construir registradores e PC.</li>
+      </ol>
+      <div class="callout">Critério de aceite: antes de clicar, a dupla deve prever o próximo estado e depois comparar previsão × resultado.</div>
+    </section>
+
+    <p class="footer">Referências: Harris & Harris, cap. 3 • Stallings, cap. 12 • Nisan & Schocken, cap. 3 • Projeto Integrador FAEX 2026.</p>
+  </main>
+
+  <script>
+    (() => {
+      const panels = ['intro','sr','dlatch','dff','reg','pc'];
+      const explored = new Set();
+      const buttons = [...document.querySelectorAll('[data-panel]')];
+      const progress = document.getElementById('progress');
+      const progressLabel = document.getElementById('progressLabel');
+      function show(name) {
+        panels.forEach(p => document.getElementById('panel-' + p).hidden = p !== name);
+        buttons.forEach(b => b.classList.toggle('active', b.dataset.panel === name));
+        explored.add(name);
+        progress.style.width = Math.round(explored.size / panels.length * 100) + '%';
+        progressLabel.textContent = `${explored.size} de ${panels.length} etapas exploradas`;
+      }
+      buttons.forEach(b => b.addEventListener('click', () => show(b.dataset.panel)));
+      show('intro');
+
+      // SR latch
+      let srS = 0, srR = 0, srQ = 0;
+      const srSBtn = document.getElementById('srS');
+      const srRBtn = document.getElementById('srR');
+      const srQEl = document.getElementById('srQ');
+      const srQbEl = document.getElementById('srQb');
+      const srMsg = document.getElementById('srMsg');
+      function renderSR() {
+        srSBtn.textContent = `S = ${srS}`;
+        srRBtn.textContent = `R = ${srR}`;
+        srQEl.textContent = srQ;
+        srQbEl.textContent = srQ === 0 ? 1 : 0;
+      }
+      srSBtn.addEventListener('click', () => { srS ^= 1; renderSR(); });
+      srRBtn.addEventListener('click', () => { srR ^= 1; renderSR(); });
+      document.getElementById('srApply').addEventListener('click', () => {
+        srMsg.className = 'status';
+        if (srS === 0 && srR === 0) srMsg.textContent = `HOLD: Q mantém ${srQ}. O circuito lembrou o estado anterior.`;
+        else if (srS === 1 && srR === 0) { srQ = 1; srMsg.textContent = 'SET: Q foi colocado em 1.'; srMsg.classList.add('good'); }
+        else if (srS === 0 && srR === 1) { srQ = 0; srMsg.textContent = 'RESET: Q foi colocado em 0.'; srMsg.classList.add('good'); }
+        else { srMsg.textContent = 'ESTADO INVÁLIDO: S = R = 1 não é uma condição válida para este SR latch.'; srMsg.classList.add('bad'); }
+        renderSR();
+      });
+      renderSR();
+
+      // D latch
+      let dlD = 0, dlClk = 0, dlQ = 0;
+      const dlDBtn = document.getElementById('dlD');
+      const dlClkBtn = document.getElementById('dlClk');
+      const dlQEl = document.getElementById('dlQ');
+      const dlMsg = document.getElementById('dlMsg');
+      function renderDL(reason='') {
+        if (dlClk === 1) {
+          dlQ = dlD;
+          dlMsg.textContent = `CLK = 1: latch transparente. ${reason} Q acompanha D e vale ${dlQ}.`;
+        } else {
+          dlMsg.textContent = `CLK = 0: latch opaco. ${reason} Q mantém ${dlQ}.`;
+        }
+        dlDBtn.textContent = `D = ${dlD}`;
+        dlClkBtn.textContent = `CLK = ${dlClk}`;
+        dlQEl.textContent = dlQ;
+      }
+      dlDBtn.addEventListener('click', () => { dlD ^= 1; renderDL('D mudou.'); });
+      dlClkBtn.addEventListener('click', () => { dlClk ^= 1; renderDL('CLK mudou.'); });
+      renderDL();
+
+      // DFF
+      let dffD = 0, dffClk = 0, dffQ = 0, dffStep = 0;
+      const dffDBtn = document.getElementById('dffD');
+      const dffClkBtn = document.getElementById('dffClk');
+      const dffQEl = document.getElementById('dffQ');
+      const dffMsg = document.getElementById('dffMsg');
+      const dffTrace = document.getElementById('dffTrace');
+      function renderDFF() {
+        dffDBtn.textContent = `D = ${dffD}`;
+        dffClkBtn.textContent = `CLK = ${dffClk}`;
+        dffQEl.textContent = dffQ;
+      }
+      function trace(prev, now, event) {
+        dffStep++;
+        const tr = document.createElement('tr');
+        [dffStep, dffD, prev, now, event, dffQ].forEach(v => {
+          const td = document.createElement('td'); td.textContent = v; tr.appendChild(td);
+        });
+        dffTrace.prepend(tr);
+        while (dffTrace.children.length > 8) dffTrace.removeChild(dffTrace.lastChild);
+      }
+      dffDBtn.addEventListener('click', () => {
+        dffD ^= 1;
+        dffMsg.textContent = `D mudou para ${dffD}, mas Q continua ${dffQ}; nenhuma borda ocorreu.`;
+        renderDFF();
+      });
+      dffClkBtn.addEventListener('click', () => {
+        const prev = dffClk;
+        dffClk ^= 1;
+        if (prev === 0 && dffClk === 1) {
+          dffQ = dffD;
+          dffMsg.textContent = `Borda 0 → 1: Q capturou D = ${dffD}.`;
+          dffMsg.className = 'status good';
+          trace(prev, dffClk, '↑ captura D');
+        } else {
+          dffMsg.textContent = `Mudança ${prev} → ${dffClk}: sem captura. Q permanece ${dffQ}.`;
+          dffMsg.className = 'status';
+          trace(prev, dffClk, 'sem captura');
+        }
+        renderDFF();
+      });
+      renderDFF();
+
+      // Register
+      let regQ = 0, regLoad = 1;
+      const regInput = document.getElementById('regInput');
+      const regLoadBtn = document.getElementById('regLoad');
+      const regIn = document.getElementById('regIn');
+      const regQEl = document.getElementById('regQ');
+      const regMsg = document.getElementById('regMsg');
+      const clamp4 = () => {
+        let v = Number(regInput.value);
+        if (!Number.isFinite(v)) v = 0;
+        v = Math.max(0, Math.min(15, Math.trunc(v)));
+        regInput.value = v;
+        return v;
+      };
+      const bin4 = v => v.toString(2).padStart(4, '0');
+      function renderReg() {
+        const v = clamp4();
+        regLoadBtn.textContent = `LOAD = ${regLoad}`;
+        regIn.textContent = bin4(v);
+        regQEl.textContent = bin4(regQ);
+      }
+      regInput.addEventListener('input', renderReg);
+      regLoadBtn.addEventListener('click', () => { regLoad ^= 1; renderReg(); });
+      document.getElementById('regPulse').addEventListener('click', () => {
+        const v = clamp4();
+        if (regLoad === 1) {
+          regQ = v;
+          regMsg.textContent = `Pulso ↑ com LOAD = 1: armazenado ${bin4(regQ)}.`;
+          regMsg.className = 'status good';
+        } else {
+          regMsg.textContent = `Pulso ↑ com LOAD = 0: entrada ${bin4(v)} ignorada; Q permanece ${bin4(regQ)}.`;
+          regMsg.className = 'status';
+        }
+        renderReg();
+      });
+      renderReg();
+
+      // PC
+      let pc = 0;
+      const pcOp = document.getElementById('pcOp');
+      const pcLoad = document.getElementById('pcLoad');
+      const pcQ = document.getElementById('pcQ');
+      const pcDec = document.getElementById('pcDec');
+      const pcMsg = document.getElementById('pcMsg');
+      function loadVal() {
+        let v = Number(pcLoad.value);
+        if (!Number.isFinite(v)) v = 0;
+        v = Math.max(0, Math.min(15, Math.trunc(v)));
+        pcLoad.value = v;
+        return v;
+      }
+      function renderPC() { pcQ.textContent = bin4(pc); pcDec.textContent = `decimal: ${pc}`; }
+      document.getElementById('pcPulse').addEventListener('click', () => {
+        const op = pcOp.value;
+        if (op === 'hold') pcMsg.textContent = `HOLD: PC permanece ${pc}.`;
+        else if (op === 'inc') { const old = pc; pc = (pc + 1) & 15; pcMsg.textContent = `INC: ${old} → ${pc}.`; }
+        else if (op === 'load') { const old = pc; pc = loadVal(); pcMsg.textContent = `LOAD/JUMP: PC mudou de ${old} para ${pc}.`; }
+        else { pc = 0; pcMsg.textContent = 'RESET: PC voltou para 0.'; }
+        renderPC();
+      });
+      renderPC();
+    })();
+  </script>
+</body>
+</html>
