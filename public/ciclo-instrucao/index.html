@@ -5,26 +5,22 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="description" content="FAEX - Arquitetura de Computadores - Semana 06: ciclo de instrução e interconexões.">
 <title>FAEX | Semana 06 | Ciclo de instrução</title>
-<link rel="stylesheet" href="style.css">
-</head>
-<body>
-<main class="shell">
+<link rel="stylesheet" href="style.css"></head><body><main class="shell">
 <section class="hero">
 <p class="eyebrow">FAEX • Arquitetura de Computadores • Semana 06</p>
 <h1>Ciclo de instrução: faça o processador funcionar passo a passo</h1>
 <p class="lead">Hoje não vamos aprender um novo conjunto de instruções. Vamos acompanhar, na prática, como <strong>PC, memória, registradores, ALU e sinais de controle</strong> trocam dados durante uma instrução completa.</p>
 <div class="pbl">Pergunta PBL: como os blocos trocam dados e controle durante uma instrução completa?</div>
 <div class="nav">
-<button data-panel="mapa">1. Mapa dos blocos</button><button data-panel="barramentos">2. Barramentos</button><button data-panel="ciclo">3. Ciclo guiado</button><button data-panel="memoria">4. Memória</button><button data-panel="micro">5. Microssequência</button><button data-panel="trace">6. Rastro</button><button data-panel="entrega">7. Evidência</button>
-</div>
-<div class="progress"><div id="bar"></div></div><div id="progressLabel" class="progress-label">0 de 7 etapas exploradas</div>
+<button data-panel="mapa">1. Mapa dos blocos</button><button data-panel="barramentos">2. Barramentos</button><button data-panel="ciclo">3. Ciclo guiado</button><button data-panel="memoria">4. Memória</button><button data-panel="micro">5. Três instruções juntas</button><button data-panel="trace">6. Leia o rastro</button><button data-panel="entrega">7. Evidência</button>
+</div><div class="progress"><div id="bar"></div></div><div id="progressLabel" class="progress-label">0 de 7 etapas exploradas</div>
 </section>
 
 <section id="panel-mapa" class="panel">
 <h2>1. Antes de executar: quem faz o quê?</h2>
 <p class="ref"><strong>Referências:</strong> Stallings, caps. 3 e 16; Harris & Harris, caps. 5 e 6; Nisan & Schocken, cap. 5.</p>
 <div class="call">Ideia da Semana 06: os blocos já estudados começam a trabalhar juntos. O foco é o <strong>fluxo de dados e de controle</strong>, não a codificação completa do RV32I.</div>
-<div class="diagram" style="margin-top:14px"><svg viewBox="0 0 1100 390" role="img" aria-label="Diagrama simplificado dos blocos do processador">
+<div class="diagram" style="margin-top:14px"><svg viewBox="0 0 1100 390">
 <defs><marker id="a" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#6d7b88"/></marker></defs>
 <rect class="component" x="30" y="145" width="115" height="78" rx="12"/><text class="label" x="87" y="177" text-anchor="middle">PC</text><text class="smalllabel" x="87" y="199" text-anchor="middle">32 bits</text>
 <rect class="component" x="195" y="125" width="150" height="118" rx="12"/><text class="label" x="270" y="169" text-anchor="middle">Memória de</text><text class="label" x="270" y="193" text-anchor="middle">instruções</text>
@@ -41,16 +37,14 @@
 <div class="card soft"><h3>Registradores</h3><p>Fornecem operandos e recebem resultados.</p></div>
 <div class="card soft"><h3>ALU</h3><p>Executa a operação combinacional selecionada.</p></div>
 <div class="card soft"><h3>Barramentos</h3><p>Transportam endereço, dados e controle.</p></div>
-</div>
-<div class="prompt">Pergunta para a turma: qual bloco guarda estado e qual apenas calcula?</div>
+</div><div class="prompt">Pergunta para a turma: qual bloco guarda estado e qual apenas calcula?</div>
 </section>
 
 <section id="panel-barramentos" class="panel" hidden>
 <h2>2. Barramentos: como os blocos conversam?</h2>
-<div class="grid2">
-<div class="card"><h3>Três tipos de informação</h3><table><thead><tr><th>Tipo</th><th>Pergunta</th></tr></thead><tbody><tr><td><strong>Endereço</strong></td><td>Onde ler ou escrever?</td></tr><tr><td><strong>Dados</strong></td><td>Qual valor está sendo transportado?</td></tr><tr><td><strong>Controle</strong></td><td>O que deve acontecer?</td></tr></tbody></table></div>
-<div class="card"><h3>Contrato didático de hoje</h3><ul class="steps"><li>endereços e dados: <strong>32 bits</strong>;</li><li>PC sequencial: <strong>+4 bytes</strong>;</li><li>memória de dados: palavras de <strong>32 bits</strong>;</li><li>endereços válidos usados hoje: múltiplos de 4;</li><li>acesso desalinhado ou fora da faixa gera erro explícito.</li></ul></div>
-</div>
+<div class="grid2"><div class="card"><h3>Três tipos de informação</h3><table><thead><tr><th>Tipo</th><th>Pergunta</th></tr></thead><tbody>
+<tr><td><strong>Endereço</strong></td><td>Onde ler ou escrever?</td></tr><tr><td><strong>Dados</strong></td><td>Qual valor está sendo transportado?</td></tr><tr><td><strong>Controle</strong></td><td>O que deve acontecer?</td></tr></tbody></table></div>
+<div class="card"><h3>Contrato didático de hoje</h3><ul class="steps"><li>endereços e dados: <strong>32 bits</strong>;</li><li>PC sequencial: <strong>+4 bytes</strong>;</li><li>memória de dados: apenas palavras de <strong>32 bits</strong>;</li><li>endereços válidos usados hoje: múltiplos de 4;</li><li>acesso desalinhado ou fora da faixa gera erro explícito.</li></ul></div></div>
 <div class="warn"><strong>Importante:</strong> as palavras usadas hoje são códigos didáticos do simulador. <strong>Não são codificações RV32I reais.</strong> A codificação formal pertence à Semana 07.</div>
 </section>
 
@@ -59,7 +53,7 @@
 <p class="ref">Estados usados hoje: <strong>Buscar → Decodificar → Executar → Memória → Escrever/Atualizar PC</strong>.</p>
 <div class="note">Estado inicial: <strong>x1=5</strong>, <strong>x2=7</strong>, x3=0, x4=0, PC=0.</div>
 <div class="stagebar"><div class="stage" data-stage-box="FETCH">1. Buscar</div><div class="stage" data-stage-box="DECODE">2. Decodificar</div><div class="stage" data-stage-box="EXECUTE">3. Executar</div><div class="stage" data-stage-box="MEMORY">4. Memória</div><div class="stage" data-stage-box="WRITEBACK">5. Escrever / PC</div></div>
-<div class="diagram"><svg viewBox="0 0 1100 390" role="img" aria-label="Caminho de dados simplificado com destaque do estágio ativo">
+<div class="diagram"><svg viewBox="0 0 1100 390">
 <defs><marker id="a2" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#6d7b88"/></marker></defs>
 <rect id="c-pc" class="component" x="30" y="145" width="115" height="78" rx="12"/><text class="label" x="87" y="177" text-anchor="middle">PC</text>
 <rect id="c-imem" class="component" x="195" y="125" width="150" height="118" rx="12"/><text class="label" x="270" y="169" text-anchor="middle">Memória de</text><text class="label" x="270" y="193" text-anchor="middle">instruções</text>
@@ -79,34 +73,116 @@
 <section id="panel-memoria" class="panel" hidden>
 <h2>4. Laboratório de memória: endereço válido ou erro?</h2>
 <p class="ref">Neste laboratório didático, a memória de dados possui 256 bytes e os acessos simulados são de palavras de 32 bits.</p>
-<div class="grid2"><div class="card"><label for="addrInput">Endereço em bytes</label><input id="addrInput" type="number" value="8" min="-4" max="300" step="1"><label for="accessType" style="display:block;margin-top:10px">Operação</label><select id="accessType"><option value="read">Ler palavra</option><option value="write">Escrever palavra</option></select><label for="accessValue" style="display:block;margin-top:10px">Valor para escrita</label><input id="accessValue" type="number" value="42"><button id="checkAccess" class="btn primary" style="width:100%;margin-top:12px">Testar acesso</button><div id="accessStatus" class="status" style="margin-top:12px">Teste primeiro o endereço 8.</div></div><div class="card"><h3>Regra que vamos verificar</h3><p><span class="mono">endereço % 4 == 0</span> → alinhado para a palavra didática de 32 bits.</p><p><span class="mono">0 ≤ endereço ≤ 252</span> → a palavra inteira cabe na memória.</p><div class="note"><strong>Faça comigo:</strong> teste 8, depois 6 e depois 260. Explique por que cada resultado muda.</div></div></div>
-</section>
+<div class="grid2">
+<div class="card"><label for="addrInput">Endereço em bytes</label><input id="addrInput" type="number" value="8" min="-4" max="300" step="1">
+<label for="accessType" style="display:block;margin-top:10px">Operação</label><select id="accessType"><option value="read">Ler palavra</option><option value="write">Escrever palavra</option></select>
+<label for="accessValue" style="display:block;margin-top:10px">Valor para escrita</label><input id="accessValue" type="number" value="42">
+<button id="checkAccess" class="btn primary" style="width:100%;margin-top:12px">Testar acesso</button><div id="accessStatus" class="status" style="margin-top:12px">Teste primeiro o endereço 8.</div></div>
+<div class="card"><h3>Regra que vamos verificar</h3><p><span class="mono">endereço % 4 == 0</span> → alinhado para a palavra didática de 32 bits.</p><p><span class="mono">0 ≤ endereço ≤ 252</span> → a palavra inteira cabe na memória.</p><div class="note"><strong>Faça comigo:</strong> teste 8, depois 6 e depois 260. Explique por que cada resultado muda.</div></div>
+</div></section>
 
 <section id="panel-micro" class="panel" hidden>
-<h2>5. Microssequência controlada de três instruções</h2>
-<p class="ref">O objetivo é observar o mesmo ciclo em três comportamentos diferentes, sem antecipar a codificação RV32I.</p>
-<div class="tablewrap"><table><thead><tr><th>PC</th><th>Palavra didática</th><th>Significado usado hoje</th><th>Efeito final</th></tr></thead><tbody><tr><td>0x00000000</td><td class="mono">0x01000001</td><td>I1: somar x1 + x2</td><td>x3 ← 12</td></tr><tr><td>0x00000004</td><td class="mono">0x02000002</td><td>I2: salvar x3 na memória[0]</td><td>memória[0] ← 12</td></tr><tr><td>0x00000008</td><td class="mono">0x03000003</td><td>I3: ler memória[0]</td><td>x4 ← 12</td></tr></tbody></table></div>
-<div class="warn"><strong>Esses códigos são apenas identificadores didáticos.</strong> Não tente decodificá-los como instruções RV32I.</div>
-<div class="grid2" style="margin-top:14px"><div class="card"><h3>Antes de executar</h3><ol class="steps"><li>Preveja x3, x4, memória[0] e PC.</li><li>Volte à etapa <strong>3. Ciclo guiado</strong>.</li><li>Execute todos os estágios das três instruções.</li><li>Compare previsão × simulador.</li></ol></div><div class="card"><h3>Estado final esperado</h3><p>x3 = <strong>12</strong></p><p>memória[0] = <strong>12</strong></p><p>x4 = <strong>12</strong></p><p>PC = <strong>0x0000000C</strong></p></div></div>
-<div class="call">Se o estado manual e o automático não coincidirem, pare no primeiro estágio em que surgiu a diferença.</div>
+<h2>5. Microssequência: veja uma instrução preparar a próxima</h2>
+<p class="ref">Aqui não vamos abrir cada instrução em cinco etapas novamente. Isso já foi feito no item 3. Agora o objetivo é perceber <strong>como o estado deixado por uma instrução é usado pela instrução seguinte</strong>.</p>
+<div class="call"><strong>Objetivo desta etapa:</strong> acompanhar três instruções completas e observar a corrente de dependência: <strong>I1 calcula → I2 usa o resultado → I3 lê o que I2 gravou</strong>.</div>
+<div class="note"><strong>Estado inicial do experimento:</strong> x1=5, x2=7, x3=0, x4=0, memória[0]=0 e PC=0x00000000.</div>
+
+<div class="micro-flow" aria-label="Microssequência de três instruções">
+  <div class="micro-card" data-micro-card="0"><span class="micro-step-num">I1</span><div><strong>x3 ← x1 + x2</strong><small>5 + 7 → x3</small></div><span class="micro-badge" data-micro-badge="0">aguardando</span></div>
+  <div class="micro-arrow">→</div>
+  <div class="micro-card" data-micro-card="1"><span class="micro-step-num">I2</span><div><strong>memória[0] ← x3</strong><small>usa o 12 produzido por I1</small></div><span class="micro-badge" data-micro-badge="1">aguardando</span></div>
+  <div class="micro-arrow">→</div>
+  <div class="micro-card" data-micro-card="2"><span class="micro-step-num">I3</span><div><strong>x4 ← memória[0]</strong><small>lê o 12 gravado por I2</small></div><span class="micro-badge" data-micro-badge="2">aguardando</span></div>
+</div>
+
+<div class="grid2" style="margin-top:16px">
+  <div class="card">
+    <h3>Faça comigo, uma instrução por vez</h3>
+    <ol class="steps">
+      <li>Leia a próxima instrução destacada.</li>
+      <li><strong>Antes de clicar</strong>, diga qual estado deve mudar.</li>
+      <li>Clique em <strong>Executar próxima instrução</strong>.</li>
+      <li>Confira a mudança e explique por que a próxima instrução precisa desse valor.</li>
+    </ol>
+    <div id="microQuestion" class="prompt">Previsão: depois de I1, qual registrador deve mudar?</div>
+    <div class="controls micro-controls" style="margin-top:10px">
+      <button id="microNext" class="btn primary">Executar próxima instrução</button>
+      <button id="microReset" class="btn">Reiniciar experimento</button>
+      <button id="microGoCycle" class="btn teal">Rever item 3 detalhado</button>
+    </div>
+    <div id="microFeedback" class="status" style="margin-top:12px">Nenhuma instrução executada nesta sequência.</div>
+  </div>
+  <div class="card">
+    <h3>Estado acumulado</h3>
+    <p>O importante aqui é observar que os valores <strong>permanecem</strong> depois que cada instrução termina.</p>
+    <div class="state-grid">
+      <div class="state-box"><small>PC</small><strong id="microPC">0x00000000</strong></div>
+      <div class="state-box"><small>x3</small><strong id="microX3">0</strong></div>
+      <div class="state-box"><small>memória[0]</small><strong id="microMem0">0</strong></div>
+      <div class="state-box"><small>x4</small><strong id="microX4">0</strong></div>
+    </div>
+    <div id="microGoal" class="ok"><strong>Meta final:</strong> x3=12, memória[0]=12, x4=12 e PC=0x0000000C.</div>
+  </div>
+</div>
+<div class="call"><strong>Conexão com o item 3:</strong> no ciclo guiado, você observou <em>dentro</em> de uma instrução. Aqui você observa <em>entre</em> as instruções: o estado produzido por uma vira entrada da próxima.</div>
 </section>
 
 <section id="panel-trace" class="panel" hidden>
-<h2>6. Rastro arquitetural: transforme a execução em evidência</h2>
-<p class="ref">O planejamento da Semana 06 pede PC, palavra, sinais, operandos e alterações observáveis.</p>
-<div class="grid2"><div class="card"><h3>Rastro do simulador</h3><div class="tablewrap"><table><thead><tr><th>#</th><th>PC</th><th>Estágio</th><th>Palavra</th><th>Sinais / ação</th><th>Alteração</th></tr></thead><tbody id="traceBody"><tr><td colspan="6">Nenhum evento registrado.</td></tr></tbody></table></div></div><div class="card"><h3>Exportar evidência</h3><textarea id="traceJson" readonly>[]</textarea><div class="controls" style="margin-top:10px"><button id="downloadJson" class="btn teal">Baixar JSON</button><button id="downloadCsv" class="btn teal">Baixar CSV</button></div></div></div>
+<h2>6. Rastro arquitetural: use o histórico para provar o que aconteceu</h2>
+<p class="ref">O rastro é o histórico da execução. Cada linha registra um pequeno acontecimento do processador para que outra pessoa consiga reconstruir a execução.</p>
+<div class="call"><strong>Objetivo desta etapa:</strong> aprender a ler o rastro, localizar onde o estado mudou e transformar a execução em uma evidência verificável para o repositório.</div>
+
+<div class="grid2" style="margin-top:14px">
+  <div class="card soft">
+    <h3>Como ler uma linha do rastro?</h3>
+    <ol class="steps">
+      <li><strong>PC:</strong> qual instrução estava sendo tratada?</li>
+      <li><strong>Etapa:</strong> em que parte do ciclo estávamos?</li>
+      <li><strong>Sinais / ação:</strong> o que os blocos foram mandados fazer?</li>
+      <li><strong>Alteração:</strong> qual estado realmente mudou?</li>
+    </ol>
+  </div>
+  <div class="card">
+    <h3>Primeiro gere o histórico</h3>
+    <p id="traceGuideText">Execute as três instruções do item 5. O rastro será preenchido automaticamente com 15 eventos: 5 etapas para cada instrução.</p>
+    <div class="metric trace-count"><small>Eventos registrados</small><strong id="traceCount">0 / 15</strong></div>
+    <div class="controls" style="margin-top:10px"><button id="traceGoMicro" class="btn primary">Ir para o item 5</button><button id="traceReset" class="btn">Limpar e recomeçar</button></div>
+  </div>
+</div>
+
+<div class="card" style="margin-top:16px">
+  <h3>1. Clique em uma linha para entender o que ela registra</h3>
+  <div class="tablewrap"><table class="trace-table"><thead><tr><th>#</th><th>PC</th><th>Etapa</th><th>Palavra</th><th>Sinais / ação</th><th>Alteração</th></tr></thead><tbody id="traceBody"><tr><td colspan="6">Nenhum evento registrado. Execute o item 5 primeiro.</td></tr></tbody></table></div>
+</div>
+
+<div class="grid2" style="margin-top:16px">
+  <div class="card trace-inspector">
+    <h3>2. Entenda a linha selecionada</h3>
+    <div id="traceInspector" class="status">Clique em uma linha da tabela. Aqui aparecerá, em linguagem simples, o que o processador fez naquele momento.</div>
+    <div class="trace-detail-grid" style="margin-top:10px">
+      <div><small>Operandos / valores usados</small><strong id="traceOperands">—</strong></div>
+      <div><small>Estado alterado</small><strong id="traceChange">—</strong></div>
+    </div>
+  </div>
+  <div class="card">
+    <h3>3. Exporte a evidência</h3>
+    <p>Quando a sequência estiver completa, salve o rastro e coloque o arquivo em <span class="mono">docs/semanas/Semana-06/</span>.</p>
+    <textarea id="traceJson" readonly>[]</textarea>
+    <div class="controls" style="margin-top:10px"><button id="downloadJson" class="btn teal" disabled>Baixar JSON</button><button id="downloadCsv" class="btn teal" disabled>Baixar CSV</button></div>
+  </div>
+</div>
+<div class="prompt"><strong>Desafio de leitura:</strong> encontre a primeira linha em que x3 muda, depois a linha em que memória[0] muda e, por último, a linha em que x4 muda. Essas três linhas contam a história da microssequência.</div>
 </section>
 
 <section id="panel-entrega" class="panel" hidden>
 <h2>7. O que registrar no repositório da dupla</h2>
 <p class="ref">Esta aula prepara a evidência da Semana 06 sem avançar para o contrato formal da Semana 07.</p>
-<div class="grid2"><div class="card"><h3>Durante a aula</h3><ol class="steps"><li>registre a interface de endereço, dados e controle;</li><li>execute um acesso válido, um desalinhado e um fora da faixa;</li><li>execute a microssequência completa;</li><li>salve o rastro JSON ou CSV;</li><li>compare estado previsto × obtido.</li></ol></div><div class="card"><h3>Arquivos sugeridos</h3><p class="mono">docs/semanas/Semana-06/</p><ul class="steps"><li><span class="mono">interfaces-barramento.md</span></li><li><span class="mono">ciclo-instrucao.md</span></li><li><span class="mono">trace.json</span> ou <span class="mono">trace.csv</span></li><li><span class="mono">testes-alinhamento.md</span></li></ul></div></div>
+<div class="grid2"><div class="card"><h3>Durante a aula</h3><ol class="steps"><li>registre a interface de endereço, dados e controle;</li><li>execute um acesso válido, um desalinhado e um fora da faixa;</li><li>execute a microssequência completa;</li><li>salve o rastro JSON ou CSV;</li><li>compare estado previsto × obtido.</li></ol></div>
+<div class="card"><h3>Arquivos sugeridos</h3><p class="mono">docs/semanas/Semana-06/</p><ul class="steps"><li><span class="mono">interfaces-barramento.md</span></li><li><span class="mono">ciclo-instrucao.md</span></li><li><span class="mono">trace.json</span> ou <span class="mono">trace.csv</span></li><li><span class="mono">testes-alinhamento.md</span></li></ul></div></div>
 <div class="ok"><strong>Critério de compreensão:</strong> você deve conseguir explicar por onde a informação passa em cada estágio e qual bloco realmente alterou estado.</div>
 <div class="note"><strong>Próxima semana:</strong> só depois desta integração mínima vamos formalizar quais instruções RV32I o MiniRV aceita e como os campos são codificados.</div>
 </section>
 
 <p class="footer">FAEX • Arquitetura de Computadores • Laboratório didático da Semana 06</p>
 </main>
-<script src="app.js"></script>
-</body>
-</html>
+<script src="app.js"></script></body></html>
