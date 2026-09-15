@@ -1,0 +1,35 @@
+(()=>{
+const panels=[...document.querySelectorAll('.panel')],nav=[...document.querySelectorAll('.nav button')],seen=new Set(),bar=document.getElementById('bar'),pl=document.getElementById('progressLabel');
+function show(n){panels.forEach(p=>p.hidden=p.id!==`panel-${n}`);nav.forEach(b=>b.classList.toggle('active',b.dataset.panel===n));seen.add(n);bar.style.width=`${Math.round(seen.size/7*100)}%`;pl.textContent=`${seen.size} de 7 etapas exploradas`;window.scrollTo({top:0,behavior:'smooth'})}
+nav.forEach(b=>b.onclick=()=>show(b.dataset.panel));show('mapa');
+const ins={0:{word:'0x01000001',kind:'ADD'},4:{word:'0x02000002',kind:'STORE'},8:{word:'0x03000003',kind:'LOAD'}};
+let S,idx,cur,tmp,trace;const stages=['FETCH','DECODE','EXECUTE','MEMORY','WRITEBACK'],names={FETCH:'Buscar',DECODE:'Decodificar',EXECUTE:'Executar',MEMORY:'Memória',WRITEBACK:'Escrever / PC'};
+const $=id=>document.getElementById(id),fmt=n=>'0x'+(Number(n)>>>0).toString(16).toUpperCase().padStart(8,'0');
+const reg={1:$('r1'),2:$('r2'),3:$('r3'),4:$('r4')},mem={0:$('mem0'),4:$('mem4')};
+function render(){ $('simPC').textContent=fmt(S.pc);Object.entries(reg).forEach(([k,e])=>e.textContent=S.regs[k]);Object.entries(mem).forEach(([k,e])=>e.textContent=S.mem[k]??0)}
+function clear(){document.querySelectorAll('#panel-ciclo .component,#panel-ciclo .wire,[data-stage-box]').forEach(x=>x.classList.remove('active'))}
+function hi(st){clear();document.querySelector(`[data-stage-box="${st}"]`)?.classList.add('active');const map={FETCH:['c-pc','c-imem','w-pc-imem'],DECODE:['c-imem','c-dec','c-reg','w-imem-dec','w-dec-reg'],EXECUTE:['c-reg','c-alu','w-reg-alu'],MEMORY:['c-alu','c-dmem','w-alu-mem'],WRITEBACK:['c-reg','c-dmem','c-pc','w-return']};(map[st]||[]).forEach(id=>$(id)?.classList.add('active'))}
+function tr(st,sig,chg='—'){trace.push({seq:trace.length+1,pc:fmt(S.pc),stage:st,word:cur?.word||'—',signals:sig,change:chg});drawTrace()}
+function drawTrace(){const tb=$('traceBody');tb.innerHTML=trace.length?trace.map(t=>`<tr><td>${t.seq}</td><td class="mono">${t.pc}</td><td>${t.stage}</td><td class="mono">${t.word}</td><td>${t.signals}</td><td>${t.change}</td></tr>`).join(''):'<tr><td colspan="6">Nenhum evento registrado.</td></tr>';$('traceJson').value=JSON.stringify(trace,null,2)}
+function done(){idx=-1;cur=null;tmp=null;$('simWord').textContent='—';$('simResult').textContent='—';if(ins[S.pc]){$('predict').textContent='Antes de clicar: use o PC para prever qual palavra será buscada.';$('stepBtn').textContent='Iniciar próxima instrução'}else{$('predict').textContent='Microssequência concluída. Confira x3, memória[0], x4 e PC.';$('stepBtn').textContent='Microssequência concluída';$('stepBtn').disabled=true;clear()}}
+function step(){
+ if(idx===-1){cur=ins[S.pc];if(!cur){done();return}idx=0}
+ const st=stages[idx];hi(st);$('simStage').textContent=names[st];$('simWord').textContent=cur.word;let text='',sig='',chg='—';
+ if(st==='FETCH'){text=`O PC vale <strong>${fmt(S.pc)}</strong>. Esse endereço seleciona a palavra <strong>${cur.word}</strong>.`;sig='InstrRead=1';$('predict').textContent='Próximo: qual bloco interpreta a palavra?'}
+ if(st==='DECODE'){
+   if(cur.kind==='ADD'){text='O decoder seleciona ADD. O banco fornece x1=5 e x2=7.';sig='ALUOp=ADD; RegWrite=1'}
+   if(cur.kind==='STORE'){text='O decoder seleciona STORE. x3 será o dado e o endereço didático será 0.';sig='MemWrite=1; RegWrite=0'}
+   if(cur.kind==='LOAD'){text='O decoder seleciona LOAD. O endereço didático será 0 e o dado voltará para x4.';sig='MemRead=1; RegWrite=1'}
+   $('predict').textContent='Próximo: qual bloco calcula a soma ou o endereço?'}
+ if(st==='EXECUTE'){if(cur.kind==='ADD'){tmp=(S.regs[1]+S.regs[2])>>>0;text=`A ALU calcula 5 + 7 e produz <strong>${tmp}</strong>.`;sig='ALU: 5 + 7'}else{tmp=0;text='A ALU produz o endereço efetivo didático 0.';sig='ALU: endereço=0'}$('simResult').textContent=tmp;$('predict').textContent='Próximo: esta instrução precisa acessar a memória de dados?'}
+ if(st==='MEMORY'){if(cur.kind==='ADD'){text='ADD não usa a memória de dados.';sig='MemRead=0; MemWrite=0'}if(cur.kind==='STORE'){S.mem[0]=S.regs[3]>>>0;text=`A memória recebe x3=${S.regs[3]} no endereço 0.`;sig='MemWrite=1; addr=0';chg=`mem[0] ← ${S.mem[0]}`}if(cur.kind==='LOAD'){tmp=S.mem[0]>>>0;text=`A memória lê o endereço 0 e devolve <strong>${tmp}</strong>.`;sig='MemRead=1; addr=0';chg=`dado lido=${tmp}`;$('simResult').textContent=tmp}$('predict').textContent='Próximo: existe resultado para gravar em registrador?'}
+ if(st==='WRITEBACK'){const old=S.pc;if(cur.kind==='ADD'){S.regs[3]=tmp>>>0;chg=`x3 ← ${S.regs[3]}`;text=`O resultado ${tmp} é escrito em x3.`;sig='RegWrite=1; rd=x3'}if(cur.kind==='STORE'){text='STORE não escreve registrador.';sig='RegWrite=0'}if(cur.kind==='LOAD'){S.regs[4]=tmp>>>0;chg=`x4 ← ${S.regs[4]}`;text=`O dado ${tmp} é escrito em x4.`;sig='RegWrite=1; rd=x4'}S.pc=(S.pc+4)>>>0;text+=` Depois, o PC avança de ${fmt(old)} para <strong>${fmt(S.pc)}</strong>.`;chg+=(chg==='—'?'':'; ')+`PC ← ${fmt(S.pc)}`}
+ $('stageExplanation').innerHTML=text;tr(st,sig,chg);render();idx++;if(idx>=stages.length)done();else $('stepBtn').textContent='Próximo estágio'
+}
+function reset(){S={pc:0,regs:{1:5,2:7,3:0,4:0},mem:{0:0,4:0}};idx=-1;cur=null;tmp=null;trace=[];$('simWord').textContent='—';$('simStage').textContent='Pronto';$('simResult').textContent='—';$('stageExplanation').innerHTML='Clique em <strong>Iniciar instrução</strong>.';$('predict').textContent='Antes de clicar: qual bloco deve ser usado primeiro para localizar a instrução?';$('stepBtn').textContent='Iniciar instrução';$('stepBtn').disabled=false;clear();render();drawTrace()}
+$('stepBtn').onclick=step;$('resetSim').onclick=reset;reset();
+$('checkAccess').onclick=()=>{const a=Number($('addrInput').value),type=$('accessType').value,val=Number($('accessValue').value)>>>0,out=$('accessStatus');out.className='status';if(!Number.isInteger(a)){out.classList.add('bad');out.textContent='ERRO: o endereço deve ser inteiro.';return}if(a<0||a>252){out.classList.add('bad');out.textContent=`ERRO DE FAIXA: endereço ${a}. A palavra não cabe na memória didática.`;return}if(a%4!==0){out.classList.add('bad');out.textContent=`ERRO DE ALINHAMENTO: endereço ${a} não é múltiplo de 4.`;return}out.classList.add('good');out.textContent=type==='read'?`ACESSO VÁLIDO: leitura de palavra no endereço ${a}.`:`ACESSO VÁLIDO: escrita do valor ${val} no endereço ${a}.`};
+function dl(name,mime,text){const blob=new Blob([text],{type:mime}),u=URL.createObjectURL(blob),a=document.createElement('a');a.href=u;a.download=name;a.click();URL.revokeObjectURL(u)}
+$('downloadJson').onclick=()=>dl('trace-semana-06.json','application/json',JSON.stringify(trace,null,2));
+$('downloadCsv').onclick=()=>{const esc=v=>`"${String(v).replaceAll('"','""')}"`,rows=[['seq','pc','stage','word','signals','change'],...trace.map(t=>[t.seq,t.pc,t.stage,t.word,t.signals,t.change])];dl('trace-semana-06.csv','text/csv;charset=utf-8',rows.map(r=>r.map(esc).join(',')).join('\n'))};
+})();
