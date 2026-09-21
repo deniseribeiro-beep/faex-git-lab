@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="FAEX - Arquitetura de Computadores - Semana 07: ISA e contrato do subconjunto RV32I.">
+<title>FAEX | Semana 07 | ISA RV32I</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body><main class="shell">
+<section class="hero">
+<p class="eyebrow">FAEX • Arquitetura de Computadores • Semana 07</p>
+<h1>ISA RV32I: descubra como uma instrução vira 32 bits</h1>
+<p class="lead">Na semana passada acompanhamos <strong>por onde uma instrução passa</strong>. Agora vamos descobrir <strong>como os 32 bits dizem ao processador o que fazer</strong>.</p>
+<div class="pbl">Pergunta PBL: qual conjunto mínimo de instruções é suficiente para expressar a carga de controle e manter decodificação regular?</div>
+<div class="nav">
+<button data-panel="contrato">1. ISA como contrato</button>
+<button data-panel="formatos">2. Anatomia dos 32 bits</button>
+<button data-panel="encode">3. Codificação guiada</button>
+<button data-panel="decode">4. Decodificação guiada</button>
+<button data-panel="imediatos">5. Imediatos e endereçamento</button>
+<button data-panel="subset">6. Subconjunto do MiniRV</button>
+<button data-panel="evidencia">7. Vetores e evidência</button>
+</div>
+<div class="progress"><div id="bar"></div></div><div id="progressLabel" class="progress-label">0 de 7 etapas exploradas</div>
+</section>
+
+<section id="panel-contrato" class="panel">
+<h2>1. ISA: o contrato entre software e hardware</h2>
+<p class="ref"><strong>Referências:</strong> Harris & Harris, cap. 6, seções 6.4, 6.6 e 6.7; Stallings, caps. 13, 14 e 17; Nisan & Schocken, cap. 4.</p>
+<div class="grid2">
+<div class="card">
+<h3>O que a ISA define?</h3>
+<p>A ISA — <em>Instruction Set Architecture</em> — define as regras que software e processador devem seguir para falar a mesma língua.</p>
+<ul class="steps"><li>quais instruções existem;</li><li>como cada instrução é escrita;</li><li>como seus campos são codificados em bits;</li><li>quais registradores, imediatos e endereços ela usa;</li><li>qual efeito arquitetural deve produzir.</li></ul>
+<div class="call">A ISA não diz exatamente como construir fisicamente a CPU. Ela diz <strong>o comportamento que precisa ser respeitado</strong>.</div>
+</div>
+<div class="card">
+<h3>Da linguagem para a máquina</h3>
+<div class="contract-flow"><div>Assembly<br><strong>ADD x3, x1, x2</strong></div><span>→</span><div>ISA<br><strong>regras de codificação</strong></div><span>→</span><div>32 bits<br><strong>0x002081B3</strong></div></div>
+<div class="prompt">Pergunta para a turma: se dois processadores implementam a mesma ISA, o programa precisa conhecer os detalhes internos de cada CPU?</div>
+</div>
+</div>
+<div class="grid2" style="margin-top:14px">
+<div class="card soft"><h3>Regularidade RISC</h3><p>No RV32I, as instruções-base possuem 32 bits e mantêm campos importantes em posições regulares. Isso ajuda a simplificar a decodificação.</p></div>
+<div class="card soft"><h3>RISC × CISC, sem torcida</h3><p>RISC tende a usar formatos e operações mais regulares; CISC pode oferecer instruções e modos mais complexos. Nesta semana, o importante é observar como a regularidade do RV32I afeta nosso decoder.</p></div>
+</div>
+<div class="note"><strong>Limite desta aula:</strong> vamos especificar e testar o contrato do subconjunto MiniRV. O montador completo e a execução de programas Assembly entram na Semana 08.</div>
+</section>
+
+<section id="panel-formatos" class="panel" hidden>
+<h2>2. Anatomia dos 32 bits: os campos mudam de função</h2>
+<p class="ref">RV32I usa formatos de 32 bits. No projeto, trabalharemos com R, I, S, B, U e J.</p>
+<div class="format-buttons" id="formatButtons"></div>
+<div class="card" style="margin-top:14px">
+<h3 id="formatTitle">Formato R</h3>
+<p id="formatUse">Usado por operações entre registradores.</p>
+<div id="bitRuler" class="bit-ruler"></div>
+<div id="formatStrip" class="format-strip"></div>
+<div id="formatLegend" class="legend"></div>
+</div>
+<div class="grid2" style="margin-top:14px">
+<div class="card"><h3>O que permanece regular?</h3><p>No RV32I, <strong>opcode</strong> ocupa os bits 6–0. Quando existem, <strong>rd</strong>, <strong>rs1</strong> e <strong>rs2</strong> ficam em posições fixas. Isso reduz o trabalho do decoder.</p></div>
+<div class="card"><h3>O que varia?</h3><p>Nem toda instrução precisa dos mesmos operandos. Por isso, alguns formatos trocam registradores por partes de um <strong>imediato</strong> ou deslocamento.</p></div>
+</div>
+<div class="prompt" id="formatQuestion">Observe o formato R: onde estão rd, rs1 e rs2?</div>
+</section>
+
+<section id="panel-encode" class="panel" hidden>
+<h2>3. Codificação guiada: ADD x3, x1, x2</h2>
+<p class="ref">Vamos montar uma instrução R real, campo por campo, sem adivinhar os bits.</p>
+<div class="call"><strong>Objetivo:</strong> transformar a instrução simbólica <span class="mono">ADD x3, x1, x2</span> na palavra real de 32 bits <span class="mono">0x002081B3</span>.</div>
+<div class="grid2" style="margin-top:14px">
+<div class="card">
+<h3>Faça comigo</h3>
+<ol class="steps"><li>Leia a sintaxe e identifique destino e fontes.</li><li>Preencha opcode e registradores.</li><li>Use funct3 e funct7 para distinguir ADD de outras operações R.</li><li>Junte os campos na ordem dos bits 31 até 0.</li><li>Converta o padrão binário para hexadecimal.</li></ol>
+<div id="encodeQuestion" class="prompt">Primeiro: em <strong>ADD x3, x1, x2</strong>, qual registrador recebe o resultado?</div>
+<div class="controls"><button id="encodeNext" class="btn primary">Revelar próximo campo</button><button id="encodeReset" class="btn">Reiniciar</button></div>
+<div id="encodeFeedback" class="status" style="margin-top:12px">Nenhum campo revelado ainda.</div>
+</div>
+<div class="card">
+<h3>Palavra sendo construída</h3>
+<div id="encodeStrip" class="format-strip"></div>
+<table class="compact"><thead><tr><th>Campo</th><th>Valor</th><th>Significado</th></tr></thead><tbody id="encodeTable"></tbody></table>
+<div class="result-box"><small>Resultado binário</small><strong id="encodeBinary">—</strong><small>Resultado hexadecimal</small><strong id="encodeHex">—</strong></div>
+</div>
+</div>
+<div class="note"><strong>Regra prática:</strong> o opcode identifica uma grande classe. Em instruções R, funct3 e funct7 refinam qual operação será executada.</div>
+</section>
+
+<section id="panel-decode" class="panel" hidden>
+<h2>4. Decodificação guiada: dos 32 bits de volta à instrução</h2>
+<p class="ref">Agora fazemos o caminho inverso: palavra de máquina → campos → instrução.</p>
+<div class="grid2">
+<div class="card">
+<label for="decodeExample">Exemplo</label>
+<select id="decodeExample"></select>
+<label for="decodeInput" style="display:block;margin-top:10px">Palavra hexadecimal de 32 bits</label>
+<input id="decodeInput" value="0x002081B3" maxlength="10">
+<div class="prompt" id="decodePrediction">Antes de decodificar: observe os 7 bits finais. Eles identificam qual formato?</div>
+<button id="decodeBtn" class="btn primary" style="width:100%">Decodificar palavra</button>
+<div id="decodeStatus" class="status" style="margin-top:12px">Use o exemplo ADD ou escolha outra palavra real do subconjunto.</div>
+</div>
+<div class="card">
+<h3 id="decodedAsm">Instrução: —</h3>
+<div id="decodeStrip" class="format-strip"></div>
+<table class="compact"><thead><tr><th>Campo</th><th>Bits/valor</th><th>Leitura</th></tr></thead><tbody id="decodeFields"><tr><td colspan="3">Nenhuma palavra decodificada.</td></tr></tbody></table>
+</div>
+</div>
+<div class="call" id="decodeExplanation"><strong>Método:</strong> comece pelo opcode. Depois use o formato para saber onde procurar registradores, funct3/funct7 e imediato.</div>
+</section>
+
+<section id="panel-imediatos" class="panel" hidden>
+<h2>5. Imediatos e modos de endereçamento</h2>
+<p class="ref">Imediato é um valor codificado dentro da própria instrução. Em alguns formatos ele aparece dividido em mais de um campo.</p>
+<div class="grid2">
+<div class="card">
+<h3>Escolha um exemplo</h3>
+<select id="immExample"></select>
+<div id="immSyntax" class="syntax-box">—</div>
+<div id="immStrip" class="format-strip" style="margin-top:12px"></div>
+<div class="result-box"><small>Imediato reconstruído</small><strong id="immValue">—</strong><small>Uso arquitetural</small><strong id="immUse">—</strong></div>
+</div>
+<div class="card">
+<h3>O que muda entre formatos?</h3>
+<table class="compact"><thead><tr><th>Formato</th><th>Imediato</th><th>Uso típico no MiniRV</th></tr></thead><tbody>
+<tr><td>I</td><td>12 bits com sinal</td><td>ADDI, ANDI, ORI, LW, JALR</td></tr>
+<tr><td>S</td><td>12 bits com sinal, dividido</td><td>SW</td></tr>
+<tr><td>B</td><td>deslocamento com sinal, múltiplo de 2</td><td>BEQ, BNE, BLT</td></tr>
+<tr><td>U</td><td>20 bits superiores</td><td>LUI</td></tr>
+<tr><td>J</td><td>deslocamento com sinal, múltiplo de 2</td><td>JAL</td></tr>
+</tbody></table>
+<div class="note"><strong>Endereçamento usado aqui:</strong> registrador, imediato, base + deslocamento e PC-relativo. A aula não precisa percorrer todos os modos históricos de outras ISAs.</div>
+</div>
+</div>
+<div class="prompt">Pergunta para a turma: por que B e J não guardam o deslocamento como uma sequência contínua de bits dentro da instrução?</div>
+</section>
+
+<section id="panel-subset" class="panel" hidden>
+<h2>6. Contrato do subconjunto MiniRV</h2>
+<p class="ref">O projeto não implementa todas as instruções RV32I nesta etapa. O contrato comum exige um subconjunto suficiente para a carga de controle.</p>
+<div class="grid2">
+<div class="card">
+<h3>Consulte uma instrução obrigatória</h3>
+<select id="subsetSelect"></select>
+<div id="subsetCard" class="instruction-card"></div>
+</div>
+<div class="card">
+<h3>Por que esse subconjunto?</h3>
+<p>Ele precisa cobrir cinco necessidades da carga canônica:</p>
+<div class="need-grid">
+<button data-need="read">1. Ler dados</button><button data-need="decide">2. Tomar decisão</button><button data-need="state">3. Manter/alterar estado</button><button data-need="write">4. Escrever saída</button><button data-need="loop">5. Repetir o laço</button>
+</div>
+<div id="needExplanation" class="status">Clique em uma necessidade para ver quais classes de instrução ajudam a expressá-la.</div>
+</div>
+</div>
+<div class="card" style="margin-top:14px"><h3>Tabela do contrato obrigatório</h3><div class="tablewrap"><table><thead><tr><th>Classe</th><th>Instruções</th><th>Formatos</th></tr></thead><tbody><tr><td>Aritmética/lógica R</td><td>ADD, SUB, AND, OR, XOR, SLT, SLL, SRL</td><td>R</td></tr><tr><td>Imediatas e carga</td><td>ADDI, ANDI, ORI, LW, JALR</td><td>I</td></tr><tr><td>Armazenamento</td><td>SW</td><td>S</td></tr><tr><td>Controle</td><td>BEQ, BNE, BLT, JAL</td><td>B e J</td></tr><tr><td>Imediato superior</td><td>LUI</td><td>U</td></tr></tbody></table></div></div>
+<div class="warn"><strong>Importante:</strong> instruções extras são permitidas no projeto, mas não substituem nenhuma obrigatória. Mudanças futuras no contrato v1 devem ser registradas por ADR.</div>
+</section>
+
+<section id="panel-evidencia" class="panel" hidden>
+<h2>7. Vetores encode/decode: transforme a especificação em evidência</h2>
+<p class="ref">Cada instrução obrigatória precisa de formato, campos, semântica e pelo menos um vetor de teste.</p>
+<div class="grid2">
+<div class="card">
+<h3>Teste automático do contrato didático</h3>
+<p>O simulador gera um vetor válido para cada instrução obrigatória, codifica a instrução, decodifica a palavra e verifica se o mnemônico e os campos essenciais foram preservados.</p>
+<button id="runVectors" class="btn primary" style="width:100%">Executar encode → decode</button>
+<div class="metric" style="margin-top:12px"><small>Vetores aprovados</small><strong id="vectorCount">0 / 19</strong></div>
+<div id="vectorStatus" class="status" style="margin-top:12px">Ainda não executado.</div>
+</div>
+<div class="card">
+<h3>O que levar para o repositório</h3>
+<ul class="steps"><li><span class="mono">docs/isa/rv32i-subset-v1.md</span> com tabela completa de codificação;</li><li>vetores encode/decode de todas as instruções obrigatórias;</li><li>programa Assembly preliminar da carga canônica;</li><li>PR revisada e tag <span class="mono">s07</span>.</li></ul>
+<div class="controls"><button id="downloadVectorsJson" class="btn teal" disabled>Baixar JSON</button><button id="downloadVectorsCsv" class="btn teal" disabled>Baixar CSV</button></div>
+</div>
+</div>
+<div class="card" style="margin-top:14px"><h3>Resultado dos vetores</h3><div class="tablewrap"><table><thead><tr><th>Instr.</th><th>Assembly do vetor</th><th>Palavra</th><th>Decode</th><th>Resultado</th></tr></thead><tbody id="vectorBody"><tr><td colspan="5">Execute o teste acima.</td></tr></tbody></table></div></div>
+<div class="ok"><strong>Critério de aceite:</strong> encode seguido de decode deve preservar a instrução e seus campos relevantes para todos os vetores válidos.</div>
+</section>
+
+<p class="footer">FAEX • Arquitetura de Computadores • Laboratório didático da Semana 07</p>
+</main><script src="app.js"></script></body></html>
