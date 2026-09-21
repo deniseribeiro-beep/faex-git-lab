@@ -8,6 +8,7 @@ O mesmo repositório também hospeda laboratórios didáticos independentes usad
 
 - `public/flipflops/`: Semana 05 — lógica sequencial, latches, flip-flops, registradores e PC.
 - `public/ciclo-instrucao/`: Semana 06 — organização funcional, barramentos, ciclo de instrução e rastro arquitetural.
+- `public/isa-rv32i/`: Semana 07 — ISA, formatos R/I/S/B/U/J, codificação, decodificação e vetores do subconjunto MiniRV.
 
 ## Executar
 
@@ -37,6 +38,7 @@ pnpm build
 - `docs/arquitetura.md`: decisões de arquitetura.
 - `public/flipflops/`: laboratório da Semana 05 de Arquitetura de Computadores.
 - `public/ciclo-instrucao/`: laboratório da Semana 06 de Arquitetura de Computadores.
+- `public/isa-rv32i/`: laboratório da Semana 07 de Arquitetura de Computadores.
 
 ## Publicação
 
