@@ -11,7 +11,7 @@ Base: `/faex-git-lab/`
 | Recurso | Caminho |
 |---|---|
 | Portal (menu) | `/` |
-| Palestra ADS + quiz | `/palestra-ads/` |
+| Palestra ADS (enquete + quiz) | `/palestra-ads/` |
 | Git Lab | `/git-lab/` |
 | Flip-flops (Semana 05) | `/flipflops/` |
 | Ciclo de instrução (Semana 06) | `/ciclo-instrucao/` |
@@ -25,8 +25,8 @@ Base: `/faex-git-lab/`
 
 ## Palestra ADS
 
-- `public/palestra-ads/`: apresentação HTML (projetor) sobre o universo do desenvolvimento, slide **Por que a FAEX?** e quiz interativo (sem premiação).
-- Imagens: adicione em `docs/figures/` e copie para `public/palestra-ads/assets/figures/` (ver README em ambas as pastas).
+- `public/palestra-ads/`: apresentação HTML (projetor) com templates claros (hero / split / spotlight), enquete ao vivo, reveal de docentes, quiz em estilo arena e teaser Robocode.
+- Imagens wide/full-bleed em `public/palestra-ads/assets/figures/` (staging em `docs/figures/`).
 - Fontes em `docs/`: `Palestra ADS FAEX.pptx`, `Template_FAEX.pptx` (identidade visual).
 
 ## Executar

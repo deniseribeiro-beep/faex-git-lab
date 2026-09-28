@@ -3,12 +3,12 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Palestra ADS — Análise e Desenvolvimento de Sistemas | FAEX Extrema" />
+  <meta name="description" content="Palestra ADS FAEX — universo do desenvolvimento, enquete, quiz e descoberta do curso." />
   <title>FAEX | ADS — Criando o Futuro com Código</title>
   <link rel="icon" type="image/svg+xml" href="../favicon.svg" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;700;800&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@600;700;800;900&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
   <link rel="stylesheet" href="./style.css" />
 </head>
@@ -21,7 +21,7 @@
     </a>
     <div class="chrome-progress" aria-hidden="true"><i id="progressBar"></i></div>
     <div class="chrome-actions">
-      <span id="slideCounter" class="slide-counter">1 / 7</span>
+      <span id="slideCounter" class="slide-counter">1 / 9</span>
       <button type="button" class="chrome-btn" id="btnPrev" aria-label="Slide anterior"><i class="fa-solid fa-chevron-left"></i></button>
       <button type="button" class="chrome-btn" id="btnNext" aria-label="Próximo slide"><i class="fa-solid fa-chevron-right"></i></button>
       <button type="button" class="chrome-btn" id="btnFs" aria-label="Tela cheia"><i class="fa-solid fa-expand"></i></button>
@@ -33,198 +33,192 @@
 
   <main id="deck" class="deck" tabindex="-1">
 
-    <section class="slide slide-dark slide-cover is-active" data-slide="0" aria-label="Capa">
-      <div class="cover-geo" aria-hidden="true">
-        <span class="geo-band geo-band-1"></span>
-        <span class="geo-band geo-band-2"></span>
-        <span class="geo-wedge"></span>
+    <!-- 1. Capa Hero -->
+    <section class="slide tpl-hero is-active" data-slide="0" aria-label="Capa">
+      <div class="hero-media" aria-hidden="true">
+        <img src="./assets/figures/01-cover.jpg" alt="" />
       </div>
-      <div class="slide-inner cover-inner">
-        <div class="cover-layout">
-          <div class="cover-copy">
-            <p class="eyebrow gold">Análise e Desenvolvimento de Sistemas</p>
-            <h1>O Mundo de TI:<br /><span class="gold">Criando o Futuro com Código</span></h1>
-            <p class="lead">Bem-vindos à FAEX — a tecnologia na prática, com quem forma profissionais há 15 anos em Extrema.</p>
-            <div class="cover-meta">
-              <img class="cover-logo" src="./assets/faex-logo.svg" alt="FAEX Faculdade de Extrema" />
-              <div>
-                <strong>Profa. Denise Ribeiro</strong>
-                <span>ADS FAEX · Eng. de Computação · Mestranda em Ciência de Dados</span>
-              </div>
+      <div class="hero-scrim" aria-hidden="true"></div>
+      <div class="slide-inner">
+        <div class="hero-copy">
+          <span class="hero-badge">Análise e Desenvolvimento de Sistemas</span>
+          <h1>O Mundo de TI:<br /><span class="gold">Criando o Futuro com Código</span></h1>
+          <p class="lead">Bem-vindos à FAEX — tecnologia na prática, com quem forma profissionais há 15 anos em Extrema.</p>
+          <div class="hero-meta">
+            <img src="./assets/faex-logo.svg" alt="FAEX Faculdade de Extrema" />
+            <div>
+              <strong>Profa. Denise Ribeiro</strong>
+              <span>ADS FAEX · Eng. de Computação · Mestranda em Ciência de Dados</span>
             </div>
           </div>
-          <figure class="slide-figure" data-figure="01-cover">
-            <img class="slide-media" src="./assets/figures/01-cover.jpg" alt="Ambiente de tecnologia e desenvolvimento" />
-          </figure>
         </div>
       </div>
     </section>
 
-    <section class="slide slide-dark" data-slide="1" aria-label="Por que a área de TI" hidden>
+    <!-- 2. Enquete -->
+    <section class="slide tpl-spotlight" data-slide="1" aria-label="Enquete" hidden>
       <div class="slide-inner">
-        <p class="eyebrow gold">Oportunidade</p>
-        <h2>Por que a área de TI?</h2>
-        <p class="lead tight">O mercado não para de crescer. Quem não se atualizar estará fora do jogo.</p>
-        <div class="slide-body with-media">
-          <div class="card-grid two">
-            <article class="info-card dark">
-              <i class="fa-solid fa-chart-line"></i>
-              <h3>Mercado aquecido</h3>
-              <p>Mais vagas abertas do que profissionais qualificados.</p>
-            </article>
-            <article class="info-card dark">
-              <i class="fa-solid fa-globe"></i>
-              <h3>Carreira global</h3>
-              <p>Home office e projetos para empresas do mundo todo.</p>
-            </article>
-            <article class="info-card dark">
-              <i class="fa-solid fa-robot"></i>
-              <h3>IA &amp; dados</h3>
-              <p>TikTok, ChatGPT e carros autônomos: tudo é código.</p>
-            </article>
-            <article class="info-card dark accent">
-              <i class="fa-solid fa-bolt"></i>
-              <h3>A hora é agora</h3>
-              <p>Quem começa hoje entra no jogo com vantagem.</p>
-            </article>
+        <h2>Antes de começar: e você?</h2>
+        <p class="lead">Toque em uma opção. Vamos ver o perfil da sala em tempo real.</p>
+        <div class="spotlight-grid">
+          <div class="big-stat">
+            <b id="pollTotal">0</b>
+            <span>votos na sala</span>
           </div>
-          <figure class="slide-figure" data-figure="02-mercado">
-            <img class="slide-media" src="./assets/figures/02-mercado.jpg" alt="Mercado de tecnologia" />
+          <div>
+            <h3 style="margin-bottom:8px">Quem já mexeu com código?</h3>
+            <div class="poll-opts" id="pollOpts" role="group" aria-label="Opções da enquete">
+              <button type="button" class="poll-btn" data-poll="ja">Já programei / fiz curso</button>
+              <button type="button" class="poll-btn" data-poll="jogo">Só jogo / curioso por TI</button>
+              <button type="button" class="poll-btn" data-poll="nunca">Ainda nunca tentei</button>
+            </div>
+            <div class="poll-results" id="pollResults" hidden>
+              <div class="poll-row" data-bar="ja"><label><span>Já programei</span><strong>0%</strong></label><div class="poll-track"><i></i></div></div>
+              <div class="poll-row" data-bar="jogo"><label><span>Só jogo / curioso</span><strong>0%</strong></label><div class="poll-track"><i></i></div></div>
+              <div class="poll-row" data-bar="nunca"><label><span>Ainda nunca tentei</span><strong>0%</strong></label><div class="poll-track"><i></i></div></div>
+            </div>
+            <p class="poll-hint">Dica: peçam para a turma votar no celular ou no projetor. Use ← → para seguir.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. Por que TI -->
+    <section class="slide tpl-split" data-slide="2" aria-label="Por que TI" hidden>
+      <div class="slide-inner">
+        <div class="split-grid">
+          <div class="split-copy">
+            <h2>Por que a área de TI?</h2>
+            <p class="lead">O mercado não para de crescer. Quem não se atualizar fica fora do jogo.</p>
+            <ul class="bullet-list">
+              <li>
+                <i class="fa-solid fa-chart-line"></i>
+                <div><strong>Mercado aquecido</strong><span>Mais vagas do que profissionais qualificados.</span></div>
+              </li>
+              <li>
+                <i class="fa-solid fa-globe"></i>
+                <div><strong>Carreira global</strong><span>Home office e projetos para o mundo todo.</span></div>
+              </li>
+              <li>
+                <i class="fa-solid fa-robot"></i>
+                <div><strong>IA &amp; dados</strong><span>Do TikTok ao carro autônomo: tudo é código.</span></div>
+              </li>
+            </ul>
+          </div>
+          <figure class="split-figure">
+            <img src="./assets/figures/02-mercado.jpg" alt="Tecnologia, dados e inovação" />
           </figure>
         </div>
       </div>
     </section>
 
-    <section class="slide slide-light" data-slide="2" aria-label="Por que a FAEX" hidden>
+    <!-- 4. Por que FAEX -->
+    <section class="slide tpl-spotlight" data-slide="3" aria-label="Por que a FAEX" hidden>
       <div class="slide-inner">
-        <p class="eyebrow">Autoridade · Extrema-MG</p>
         <h2>Por que a FAEX?</h2>
-        <p class="lead tight dark-text">A <strong>única</strong> faculdade presencial de Extrema. 15 anos de tradição e resultados comprovados na região.</p>
-        <div class="slide-body with-media">
-          <div class="card-grid two faex-cards">
-            <article class="info-card">
-              <i class="fa-solid fa-building-columns"></i>
-              <h3>Única presencial</h3>
-              <p>Formação presencial de verdade em Extrema e região.</p>
-            </article>
-            <article class="info-card">
-              <i class="fa-solid fa-award"></i>
-              <h3>15 anos</h3>
-              <p>Tradição sólida e empregabilidade comprovada.</p>
-            </article>
-            <article class="info-card">
-              <i class="fa-solid fa-laptop-code"></i>
-              <h3>Labs de ponta</h3>
-              <p>Laboratórios físicos, biblioteca e salas preparadas.</p>
-            </article>
-            <article class="info-card">
-              <i class="fa-solid fa-hand-holding-dollar"></i>
-              <h3>Mensalidade acessível</h3>
-              <p>Investimento viável para acelerar sua carreira.</p>
-            </article>
-            <article class="info-card highlight">
-              <i class="fa-solid fa-clock"></i>
-              <h3>2,5 anos</h3>
-              <p>Tecnólogo rápido · Diurno e Noturno.</p>
-            </article>
+        <p class="lead">A única faculdade presencial de Extrema — tradição e resultado na região.</p>
+        <div class="spotlight-grid">
+          <div class="big-stat">
+            <b>15</b>
+            <span>anos formando a região</span>
           </div>
-          <figure class="slide-figure" data-figure="03-campus">
-            <img class="slide-media" src="./assets/figures/03-campus.jpg" alt="Campus FAEX" />
-          </figure>
+          <div class="spotlight-copy">
+            <ul class="bullet-list">
+              <li>
+                <i class="fa-solid fa-building-columns"></i>
+                <div><strong>Única presencial em Extrema</strong><span>Presença física que faz diferença no aprendizado.</span></div>
+              </li>
+              <li>
+                <i class="fa-solid fa-clock"></i>
+                <div><strong>2,5 anos · Diurno e Noturno</strong><span>Tecnólogo rápido para entrar no mercado.</span></div>
+              </li>
+              <li>
+                <i class="fa-solid fa-hand-holding-dollar"></i>
+                <div><strong>Mensalidade acessível</strong><span>Investimento viável para acelerar a carreira.</span></div>
+              </li>
+            </ul>
+          </div>
         </div>
       </div>
     </section>
 
-    <section class="slide slide-light" data-slide="3" aria-label="Infraestrutura e prática" hidden>
+    <!-- 5. Infraestrutura -->
+    <section class="slide tpl-split" data-slide="4" aria-label="Infraestrutura" hidden>
       <div class="slide-inner">
-        <h2>Infraestrutura &amp; ensino mão na massa</h2>
-        <p class="lead tight dark-text">ADS 100% prático: você cria aplicações reais — não só teoria no quadro.</p>
-        <div class="slide-body with-media">
-          <div class="content-stack">
-            <div class="card-grid two">
-              <article class="info-card">
-                <i class="fa-solid fa-server"></i>
-                <h3>Labs de informática</h3>
-                <p>Máquinas modernas para programar, testar e entregar.</p>
-              </article>
-              <article class="info-card">
-                <i class="fa-solid fa-book-open"></i>
-                <h3>Biblioteca &amp; salas</h3>
-                <p>Ambiente presencial que faz a diferença no aprendizado.</p>
-              </article>
-              <article class="info-card">
+        <div class="split-grid">
+          <div class="split-copy">
+            <h2>Infraestrutura &amp; mão na massa</h2>
+            <p class="lead">ADS 100% prático: você cria aplicações reais — não só teoria no quadro.</p>
+            <ul class="bullet-list">
+              <li>
+                <i class="fa-solid fa-laptop-code"></i>
+                <div><strong>Labs de informática</strong><span>Máquinas modernas para programar e entregar.</span></div>
+              </li>
+              <li>
                 <i class="fa-solid fa-code"></i>
-                <h3>Projetos reais</h3>
-                <p>Apps, lógica de jogos (Robocode) e fundamentos de IA.</p>
-              </article>
-              <article class="info-card">
+                <div><strong>Projetos reais</strong><span>Apps, lógica de jogos e fundamentos de IA.</span></div>
+              </li>
+              <li>
                 <i class="fa-solid fa-sun"></i>
-                <h3>Diurno ou Noturno</h3>
-                <p>Flexibilidade para quem trabalha ou está no ensino médio.</p>
-              </article>
-            </div>
-            <aside class="stat-panel stat-row">
-              <div class="stat"><b>2,5</b><span>anos até o diploma</span></div>
-              <div class="stat"><b>100%</b><span>foco prático em ADS</span></div>
-              <div class="stat"><b>15</b><span>anos formando a região</span></div>
-            </aside>
+                <div><strong>Diurno ou Noturno</strong><span>Flexível para quem trabalha ou está no EM.</span></div>
+              </li>
+            </ul>
           </div>
-          <figure class="slide-figure" data-figure="04-labs">
-            <img class="slide-media" src="./assets/figures/04-labs.jpg" alt="Laboratório de informática FAEX" />
+          <figure class="split-figure pos-lab">
+            <img src="./assets/figures/04-labs.jpg" alt="Laboratório de informática da FAEX" />
           </figure>
         </div>
       </div>
     </section>
 
-    <section class="slide slide-dark" data-slide="4" aria-label="Corpo docente" hidden>
+    <!-- 6. Docentes + reveal -->
+    <section class="slide tpl-split" data-slide="5" data-reveal="true" aria-label="Docentes" hidden>
       <div class="slide-inner">
-        <p class="eyebrow gold">Confiança</p>
-        <h2>Os mestres do mercado</h2>
-        <p class="lead tight">Formação acadêmica de destaque e atuação real no mercado de trabalho.</p>
-        <div class="slide-body with-media">
-          <div class="faculty-grid">
-            <article class="faculty-card">
-              <div class="faculty-avatar"><i class="fa-solid fa-user-tie"></i></div>
-              <div>
+        <div class="split-grid">
+          <div class="split-copy">
+            <h2>Os mestres do mercado</h2>
+            <p class="lead">Formação acadêmica forte e atuação real no mercado. Pressione Enter para revelar.</p>
+            <div class="faculty-pair">
+              <article class="faculty-card">
                 <h3>Prof. Rodrigo Cardoso</h3>
                 <p class="role">Coordenação · ADS FAEX</p>
                 <ul>
-                  <li>Docente atuante no mercado de TI</li>
-                  <li>Conecta a sala de aula às exigências das empresas</li>
-                  <li>Contato: rodrigo.cardoso@faex.edu.br</li>
+                  <li class="reveal" data-reveal-step="0">Docente atuante no mercado de TI</li>
+                  <li class="reveal" data-reveal-step="1">Liga a sala de aula às empresas</li>
                 </ul>
-              </div>
-            </article>
-            <article class="faculty-card">
-              <div class="faculty-avatar"><i class="fa-solid fa-user-graduate"></i></div>
-              <div>
+              </article>
+              <article class="faculty-card">
                 <h3>Profa. Denise Ribeiro</h3>
-                <p class="role">Docente ADS · Mestranda em Ciência de Dados</p>
+                <p class="role">Docente ADS · Mestranda em Dados</p>
                 <ul>
-                  <li>Ex-aluna ADS FAEX (2017) — da mesma cadeira que você</li>
-                  <li>Engenharia de Computação · pós em Mainframe</li>
-                  <li>Trajetória acadêmica + mercado na prática</li>
+                  <li class="reveal" data-reveal-step="2">Ex-aluna ADS FAEX (2017)</li>
+                  <li class="reveal" data-reveal-step="3">Eng. Computação · Mainframe · Ciência de Dados</li>
                 </ul>
-              </div>
-            </article>
+              </article>
+            </div>
+            <p class="reveal-hint" id="revealHint">Enter = próximo ponto · no fim, Enter vai ao próximo slide</p>
           </div>
-          <figure class="slide-figure" data-figure="05-docentes">
-            <img class="slide-media" src="./assets/figures/01-cover.jpg" alt="Experiência prática em ADS na FAEX" />
+          <figure class="split-figure pos-lab">
+            <img src="./assets/figures/03-campus.jpg" alt="Aula prática de programação na FAEX" />
           </figure>
         </div>
       </div>
     </section>
 
-    <section class="slide slide-light slide-quiz" data-slide="5" aria-label="Quiz interativo" hidden>
-      <div class="slide-inner quiz-inner">
-        <p class="eyebrow">Momento interativo</p>
-        <h2>Hora do game: quem sabe mais sobre tecnologia?</h2>
-        <p class="lead tight dark-text">7 perguntas rápidas. Sem premiação — o prêmio é descobrir se a TI é a sua praia.</p>
+    <!-- 7. Quiz Arena -->
+    <section class="slide tpl-arena" data-slide="6" aria-label="Quiz" hidden>
+      <div class="slide-inner">
+        <h2>Arena: quem sabe mais de tecnologia?</h2>
+        <p class="lead">7 perguntas rápidas. Sem premiação — o prêmio é descobrir se a TI é a sua praia.</p>
         <div id="quizApp" class="quiz-app">
           <div id="quizStart" class="quiz-panel">
             <i class="fa-solid fa-gamepad quiz-hero-icon"></i>
             <p>Prepare-se: mercado, código, FAEX e curiosidades de TI.</p>
-            <button type="button" class="btn primary" id="quizBegin">Começar o quiz</button>
+            <button type="button" class="btn primary" id="quizBegin">Começar a arena</button>
+          </div>
+          <div id="quizCountdown" class="quiz-panel" hidden>
+            <p class="quiz-countdown" id="countdownNum">3</p>
+            <p>Prepare-se…</p>
           </div>
           <div id="quizPlay" class="quiz-panel" hidden>
             <div class="quiz-meta">
@@ -236,24 +230,39 @@
             <p id="quizFeedback" class="quiz-feedback" role="status" hidden></p>
             <button type="button" class="btn primary" id="quizNext" hidden>Próxima</button>
           </div>
-          <div id="quizResult" class="quiz-panel result" hidden>
+          <div id="quizResult" class="quiz-panel" hidden>
             <i class="fa-solid fa-trophy quiz-hero-icon gold-icon"></i>
             <h3 id="quizResultTitle">Resultado</h3>
-            <p id="quizResultText" class="lead dark-text"></p>
+            <p id="quizResultText" class="lead"></p>
             <button type="button" class="btn primary" id="quizRestart">Jogar de novo</button>
           </div>
         </div>
       </div>
     </section>
 
-    <section class="slide slide-dark slide-cta" data-slide="6" aria-label="Conheça a FAEX" hidden>
+    <!-- 8. Robocode teaser -->
+    <section class="slide tpl-hero" data-slide="7" aria-label="Robocode" hidden>
+      <div class="hero-media" aria-hidden="true">
+        <img src="./assets/figures/07-contato.jpg" alt="" style="object-position: center 30%;" />
+      </div>
+      <div class="hero-scrim" aria-hidden="true"></div>
       <div class="slide-inner">
-        <p class="eyebrow gold">Próximos passos</p>
-        <h2>Quer viver isso na prática? Conheça a FAEX</h2>
-        <p class="lead tight">Continue explorando o universo do desenvolvimento — e fale com a gente se quiser saber mais sobre ADS em Extrema.</p>
-        <div class="slide-body with-media">
-          <div class="cta-grid cta-layout">
-            <div class="cta-contacts">
+        <div class="hero-copy">
+          <span class="hero-badge">Próxima atividade</span>
+          <h1>Robocode:<br /><span class="gold">programe a estratégia do tanque</span></h1>
+          <p class="lead">Em breve vocês mandam na lógica do robô — quando atirar, para onde girar e como desviar. Código que vira batalha na tela.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 9. Contatos -->
+    <section class="slide tpl-split" data-slide="8" aria-label="Conheça a FAEX" hidden>
+      <div class="slide-inner">
+        <div class="split-grid">
+          <div class="split-copy">
+            <h2>Quer viver isso na prática?</h2>
+            <p class="lead">Continue explorando. Fale com a gente se quiser saber mais sobre ADS em Extrema.</p>
+            <div class="contact-list">
               <a class="contact-row" href="https://www.faex.edu.br" target="_blank" rel="noopener">
                 <i class="fa-solid fa-globe"></i>
                 <div><strong>Website</strong><span>www.faex.edu.br</span></div>
@@ -266,11 +275,10 @@
                 <i class="fa-solid fa-envelope"></i>
                 <div><strong>Coordenação</strong><span>rodrigo.cardoso@faex.edu.br</span></div>
               </a>
-              <p class="cta-note">Esperamos por você na FAEX — Extrema-MG.</p>
             </div>
           </div>
-          <figure class="slide-figure" data-figure="07-contato">
-            <img class="slide-media" src="./assets/figures/07-contato.jpg" alt="Conheça a FAEX" />
+          <figure class="split-figure">
+            <img src="./assets/figures/01-cover.jpg" alt="Estudante de ADS na FAEX" />
           </figure>
         </div>
       </div>
@@ -278,7 +286,7 @@
   </main>
 
   <nav class="dots" id="dots" aria-label="Navegação dos slides"></nav>
-  <p class="hint">← → navegar · F tela cheia · Esc sair</p>
+  <p class="hint">← → navegar · Enter revela · F tela cheia · Esc sair</p>
 
   <script src="./app.js" defer></script>
 </body>

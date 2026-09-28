@@ -67,6 +67,7 @@ const QUESTIONS = [
 ];
 
 const LETTERS = ["a", "b", "c", "d"];
+const POLL_KEY = "faex-ads-poll-v1";
 
 const slides = [...document.querySelectorAll(".slide")];
 const dotsNav = document.getElementById("dots");
@@ -75,8 +76,54 @@ const progressBar = document.getElementById("progressBar");
 const btnPrev = document.getElementById("btnPrev");
 const btnNext = document.getElementById("btnNext");
 const btnFs = document.getElementById("btnFs");
+const btnExit = document.getElementById("btnExit");
 
 let index = 0;
+let revealStep = -1;
+
+function currentSlide() {
+  return slides[index];
+}
+
+function isRevealSlide() {
+  return currentSlide()?.dataset.reveal === "true";
+}
+
+function revealItems() {
+  return [...currentSlide().querySelectorAll("[data-reveal-step]")].sort(
+    (a, b) => Number(a.dataset.revealStep) - Number(b.dataset.revealStep),
+  );
+}
+
+function resetReveal() {
+  revealStep = -1;
+  currentSlide()
+    ?.querySelectorAll("[data-reveal-step]")
+    .forEach((el) => el.classList.remove("is-shown"));
+  const hint = document.getElementById("revealHint");
+  if (hint) hint.textContent = "Enter = próximo ponto · no fim, Enter vai ao próximo slide";
+}
+
+function advanceReveal() {
+  const items = revealItems();
+  if (!items.length) {
+    go(index + 1);
+    return;
+  }
+  if (revealStep >= items.length - 1) {
+    go(index + 1);
+    return;
+  }
+  revealStep += 1;
+  items[revealStep].classList.add("is-shown");
+  const hint = document.getElementById("revealHint");
+  if (hint) {
+    hint.textContent =
+      revealStep >= items.length - 1
+        ? "Enter = próximo slide"
+        : `Ponto ${revealStep + 1} de ${items.length} · Enter continua`;
+  }
+}
 
 function renderDots() {
   dotsNav.innerHTML = "";
@@ -100,16 +147,8 @@ function go(i) {
   counter.textContent = `${index + 1} / ${slides.length}`;
   progressBar.style.width = `${((index + 1) / slides.length) * 100}%`;
   renderDots();
+  if (isRevealSlide()) resetReveal();
 }
-
-btnPrev.addEventListener("click", () => go(index - 1));
-btnNext.addEventListener("click", () => go(index + 1));
-btnFs.addEventListener("click", () => {
-  if (!document.fullscreenElement) document.documentElement.requestFullscreen?.();
-  else document.exitFullscreen?.();
-});
-
-const btnExit = document.getElementById("btnExit");
 
 async function leavePresentation() {
   if (document.fullscreenElement) {
@@ -122,22 +161,31 @@ async function leavePresentation() {
   window.location.href = "../index.html";
 }
 
-btnExit.addEventListener("click", () => {
-  leavePresentation();
+btnPrev.addEventListener("click", () => go(index - 1));
+btnNext.addEventListener("click", () => go(index + 1));
+btnFs.addEventListener("click", () => {
+  if (!document.fullscreenElement) document.documentElement.requestFullscreen?.();
+  else document.exitFullscreen?.();
 });
+btnExit.addEventListener("click", () => leavePresentation());
 
 document.addEventListener("keydown", (e) => {
-  if (e.target.matches("input, textarea, button.quiz-option")) return;
+  if (e.target.matches("input, textarea")) return;
   if (e.key === "Escape") {
     e.preventDefault();
-    if (document.fullscreenElement) {
-      document.exitFullscreen?.();
-    } else {
-      leavePresentation();
-    }
+    if (document.fullscreenElement) document.exitFullscreen?.();
+    else leavePresentation();
     return;
   }
-  if (e.key === "ArrowRight" || e.key === "PageDown" || e.key === " ") {
+  if (e.key === "Enter") {
+    if (e.target.matches("button.quiz-option, button.poll-btn")) return;
+    e.preventDefault();
+    if (isRevealSlide()) advanceReveal();
+    else go(index + 1);
+    return;
+  }
+  if (e.target.matches("button.quiz-option, button.poll-btn")) return;
+  if (e.key === "ArrowRight" || e.key === "PageDown") {
     e.preventDefault();
     go(index + 1);
   } else if (e.key === "ArrowLeft" || e.key === "PageUp") {
@@ -152,8 +200,58 @@ document.addEventListener("keydown", (e) => {
   }
 });
 
+/* ---- Poll ---- */
+const pollOpts = document.getElementById("pollOpts");
+const pollResults = document.getElementById("pollResults");
+const pollTotal = document.getElementById("pollTotal");
+
+function loadPoll() {
+  try {
+    return JSON.parse(sessionStorage.getItem(POLL_KEY) || '{"ja":0,"jogo":0,"nunca":0}');
+  } catch {
+    return { ja: 0, jogo: 0, nunca: 0 };
+  }
+}
+
+function savePoll(data) {
+  sessionStorage.setItem(POLL_KEY, JSON.stringify(data));
+}
+
+function renderPoll() {
+  const data = loadPoll();
+  const total = data.ja + data.jogo + data.nunca;
+  pollTotal.textContent = String(total);
+  if (total === 0) {
+    pollResults.hidden = true;
+    return;
+  }
+  pollResults.hidden = false;
+  ["ja", "jogo", "nunca"].forEach((key) => {
+    const row = pollResults.querySelector(`[data-bar="${key}"]`);
+    if (!row) return;
+    const pct = Math.round((data[key] / total) * 100);
+    row.querySelector("strong").textContent = `${pct}%`;
+    row.querySelector("i").style.width = `${pct}%`;
+  });
+}
+
+pollOpts?.addEventListener("click", (e) => {
+  const btn = e.target.closest("[data-poll]");
+  if (!btn) return;
+  const key = btn.dataset.poll;
+  const data = loadPoll();
+  data[key] = (data[key] || 0) + 1;
+  savePoll(data);
+  pollOpts.querySelectorAll(".poll-btn").forEach((b) => b.classList.remove("is-picked"));
+  btn.classList.add("is-picked");
+  renderPoll();
+});
+
+renderPoll();
+
 /* ---- Quiz ---- */
 const quizStart = document.getElementById("quizStart");
+const quizCountdown = document.getElementById("quizCountdown");
 const quizPlay = document.getElementById("quizPlay");
 const quizResult = document.getElementById("quizResult");
 const quizBegin = document.getElementById("quizBegin");
@@ -166,18 +264,34 @@ const quizOptions = document.getElementById("quizOptions");
 const quizFeedback = document.getElementById("quizFeedback");
 const quizResultTitle = document.getElementById("quizResultTitle");
 const quizResultText = document.getElementById("quizResultText");
+const countdownNum = document.getElementById("countdownNum");
 
 let qIndex = 0;
 let score = 0;
 let locked = false;
 
 function showPanel(panel) {
-  [quizStart, quizPlay, quizResult].forEach((el) => {
-    el.hidden = el !== panel;
+  [quizStart, quizCountdown, quizPlay, quizResult].forEach((el) => {
+    if (el) el.hidden = el !== panel;
   });
 }
 
-function startQuiz() {
+function startCountdown() {
+  showPanel(quizCountdown);
+  let n = 3;
+  countdownNum.textContent = String(n);
+  const timer = setInterval(() => {
+    n -= 1;
+    if (n <= 0) {
+      clearInterval(timer);
+      startQuizPlay();
+      return;
+    }
+    countdownNum.textContent = String(n);
+  }, 700);
+}
+
+function startQuizPlay() {
   qIndex = 0;
   score = 0;
   locked = false;
@@ -215,9 +329,7 @@ function pick(choice, btn) {
   buttons.forEach((b) => {
     b.disabled = true;
   });
-
-  const correctBtn = buttons[item.answer];
-  correctBtn.classList.add("correct");
+  buttons[item.answer].classList.add("correct");
 
   if (choice === item.answer) {
     score += 1;
@@ -254,22 +366,8 @@ function finishQuiz() {
   quizResultText.textContent = msg;
 }
 
-quizBegin.addEventListener("click", startQuiz);
+quizBegin.addEventListener("click", startCountdown);
 quizNext.addEventListener("click", nextQuestion);
-quizRestart.addEventListener("click", startQuiz);
-
-/* Figures: show only when the image file exists */
-document.querySelectorAll("img.slide-media").forEach((img) => {
-  const figure = img.closest(".slide-figure");
-  if (!figure) return;
-  const markReady = () => figure.classList.add("is-ready");
-  const markEmpty = () => {
-    figure.classList.remove("is-ready");
-    figure.hidden = true;
-  };
-  img.addEventListener("load", markReady);
-  img.addEventListener("error", markEmpty);
-  if (img.complete && img.naturalWidth > 0) markReady();
-});
+quizRestart.addEventListener("click", startCountdown);
 
 go(0);

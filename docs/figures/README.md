@@ -1,14 +1,15 @@
 # Figuras da palestra ADS
 
-Arquivos em `public/palestra-ads/assets/figures/` (servidos no site):
+Preferência de proporção para o projetor: **16:9** (wide).
 
-| Arquivo | Slide | Origem |
-|---|---|---|
-| `01-cover.jpg` | Capa | Gemini_Generated_Image_1 |
-| `02-mercado.jpg` | Por que a área de TI? | Gemini_Generated_Image_4 |
-| `03-campus.jpg` | Por que a FAEX? | foto do laboratório FAEX |
-| `04-labs.jpg` | Infraestrutura & prática | foto do laboratório FAEX |
-| `05-docentes.jpg` | Corpo docente | mesma arte da capa (`01-cover`) — evita texto “Tangibilidade” da arte Gemini 2 |
-| `07-contato.jpg` | Conheça a FAEX | Gemini_Generated_Image_3 |
+Arquivos servidos em `public/palestra-ads/assets/figures/`:
 
-Originais Gemini/watermarked podem permanecer nesta pasta para arquivo.
+| Arquivo | Uso no redesign |
+|---|---|
+| `01-cover.jpg` | Capa hero full-bleed + slide de contatos |
+| `02-mercado.jpg` | Split “Por que TI?” (faixa 16:9) |
+| `03-campus.jpg` | Split docentes (lab real) |
+| `04-labs.jpg` | Split infraestrutura (lab real) |
+| `07-contato.jpg` | Hero teaser Robocode |
+
+O layout usa `object-fit: cover` em hero full-bleed e em figuras com `aspect-ratio: 16/9`. Para novos exports, gere crops horizontais quando possível.
