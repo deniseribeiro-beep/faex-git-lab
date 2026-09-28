@@ -95,13 +95,27 @@ function revealItems() {
   );
 }
 
+function syncRevealUi() {
+  const items = revealItems();
+  const hint = document.getElementById("revealHint");
+  const btn = document.getElementById("btnReveal");
+  const done = revealStep >= items.length - 1 && items.length > 0;
+  if (hint) {
+    hint.textContent = done
+      ? "Enter ou botão = próximo slide"
+      : revealStep < 0
+        ? "Botão ou Enter = próximo ponto"
+        : `Ponto ${revealStep + 1} de ${items.length} · continue revelando`;
+  }
+  if (btn) btn.textContent = done ? "Próximo slide" : "Revelar próximo";
+}
+
 function resetReveal() {
   revealStep = -1;
   currentSlide()
     ?.querySelectorAll("[data-reveal-step]")
     .forEach((el) => el.classList.remove("is-shown"));
-  const hint = document.getElementById("revealHint");
-  if (hint) hint.textContent = "Enter = próximo ponto · no fim, Enter vai ao próximo slide";
+  syncRevealUi();
 }
 
 function advanceReveal() {
@@ -116,13 +130,7 @@ function advanceReveal() {
   }
   revealStep += 1;
   items[revealStep].classList.add("is-shown");
-  const hint = document.getElementById("revealHint");
-  if (hint) {
-    hint.textContent =
-      revealStep >= items.length - 1
-        ? "Enter = próximo slide"
-        : `Ponto ${revealStep + 1} de ${items.length} · Enter continua`;
-  }
+  syncRevealUi();
 }
 
 function renderDots() {
@@ -168,6 +176,9 @@ btnFs.addEventListener("click", () => {
   else document.exitFullscreen?.();
 });
 btnExit.addEventListener("click", () => leavePresentation());
+document.getElementById("btnReveal")?.addEventListener("click", () => {
+  if (isRevealSlide()) advanceReveal();
+});
 
 document.addEventListener("keydown", (e) => {
   if (e.target.matches("input, textarea")) return;
@@ -178,13 +189,13 @@ document.addEventListener("keydown", (e) => {
     return;
   }
   if (e.key === "Enter") {
-    if (e.target.matches("button.quiz-option, button.poll-btn")) return;
+    if (e.target.matches("button.quiz-option, button.poll-btn, button.reveal-btn")) return;
     e.preventDefault();
     if (isRevealSlide()) advanceReveal();
     else go(index + 1);
     return;
   }
-  if (e.target.matches("button.quiz-option, button.poll-btn")) return;
+  if (e.target.matches("button.quiz-option, button.poll-btn, button.reveal-btn")) return;
   if (e.key === "ArrowRight" || e.key === "PageDown") {
     e.preventDefault();
     go(index + 1);

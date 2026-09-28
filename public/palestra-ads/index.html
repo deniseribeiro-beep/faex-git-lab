@@ -40,15 +40,17 @@
       </div>
       <div class="hero-scrim" aria-hidden="true"></div>
       <div class="slide-inner">
-        <div class="hero-copy">
-          <span class="hero-badge">Análise e Desenvolvimento de Sistemas</span>
-          <h1>O Mundo de TI:<br /><span class="gold">Criando o Futuro com Código</span></h1>
-          <p class="lead">Bem-vindos à FAEX — tecnologia na prática, com quem forma profissionais há 15 anos em Extrema.</p>
-          <div class="hero-meta">
-            <img src="./assets/faex-logo.svg" alt="FAEX Faculdade de Extrema" />
-            <div>
-              <strong>Profa. Denise Ribeiro</strong>
-              <span>ADS FAEX · Eng. de Computação · Mestranda em Ciência de Dados</span>
+        <div class="hero-panel">
+          <div class="hero-copy">
+            <span class="hero-badge">Análise e Desenvolvimento de Sistemas</span>
+            <h1>O Mundo de TI:<br /><span class="gold">Criando o Futuro com Código</span></h1>
+            <p class="lead">Bem-vindos à FAEX — tecnologia na prática, com quem forma profissionais há 15 anos em Extrema.</p>
+            <div class="hero-meta">
+              <img src="./assets/faex-logo.svg" alt="FAEX Faculdade de Extrema" />
+              <div>
+                <strong>Profa. Denise Ribeiro</strong>
+                <span>ADS FAEX · Eng. de Computação · Mestranda em Ciência de Dados</span>
+              </div>
             </div>
           </div>
         </div>
@@ -56,29 +58,27 @@
     </section>
 
     <!-- 2. Enquete -->
-    <section class="slide tpl-spotlight" data-slide="1" aria-label="Enquete" hidden>
+    <section class="slide tpl-poll" data-slide="1" aria-label="Enquete" hidden>
       <div class="slide-inner">
-        <h2>Antes de começar: e você?</h2>
-        <p class="lead">Toque em uma opção. Vamos ver o perfil da sala em tempo real.</p>
-        <div class="spotlight-grid">
-          <div class="big-stat">
+        <div class="poll-stack">
+          <div class="poll-badge" aria-live="polite">
             <b id="pollTotal">0</b>
             <span>votos na sala</span>
           </div>
-          <div>
-            <h3 style="margin-bottom:8px">Quem já mexeu com código?</h3>
-            <div class="poll-opts" id="pollOpts" role="group" aria-label="Opções da enquete">
-              <button type="button" class="poll-btn" data-poll="ja">Já programei / fiz curso</button>
-              <button type="button" class="poll-btn" data-poll="jogo">Só jogo / curioso por TI</button>
-              <button type="button" class="poll-btn" data-poll="nunca">Ainda nunca tentei</button>
-            </div>
-            <div class="poll-results" id="pollResults" hidden>
-              <div class="poll-row" data-bar="ja"><label><span>Já programei</span><strong>0%</strong></label><div class="poll-track"><i></i></div></div>
-              <div class="poll-row" data-bar="jogo"><label><span>Só jogo / curioso</span><strong>0%</strong></label><div class="poll-track"><i></i></div></div>
-              <div class="poll-row" data-bar="nunca"><label><span>Ainda nunca tentei</span><strong>0%</strong></label><div class="poll-track"><i></i></div></div>
-            </div>
-            <p class="poll-hint">Dica: peçam para a turma votar no celular ou no projetor. Use ← → para seguir.</p>
+          <h2>Antes de começar: e você?</h2>
+          <p class="lead">Toque em uma opção. Vamos ver o perfil da sala em tempo real.</p>
+          <h3>Quem já mexeu com código?</h3>
+          <div class="poll-opts" id="pollOpts" role="group" aria-label="Opções da enquete">
+            <button type="button" class="poll-btn" data-poll="ja">Já programei / fiz curso</button>
+            <button type="button" class="poll-btn" data-poll="jogo">Só jogo / curioso por TI</button>
+            <button type="button" class="poll-btn" data-poll="nunca">Ainda nunca tentei</button>
           </div>
+          <div class="poll-results" id="pollResults" hidden>
+            <div class="poll-row" data-bar="ja"><label><span>Já programei</span><strong>0%</strong></label><div class="poll-track"><i></i></div></div>
+            <div class="poll-row" data-bar="jogo"><label><span>Só jogo / curioso</span><strong>0%</strong></label><div class="poll-track"><i></i></div></div>
+            <div class="poll-row" data-bar="nunca"><label><span>Ainda nunca tentei</span><strong>0%</strong></label><div class="poll-track"><i></i></div></div>
+          </div>
+          <p class="poll-hint">Dica: peçam para a turma votar no celular ou no projetor. Use ← → para seguir.</p>
         </div>
       </div>
     </section>
@@ -105,7 +105,7 @@
               </li>
             </ul>
           </div>
-          <figure class="split-figure">
+          <figure class="split-figure pos-mercado">
             <img src="./assets/figures/02-mercado.jpg" alt="Tecnologia, dados e inovação" />
           </figure>
         </div>
@@ -177,7 +177,7 @@
         <div class="split-grid">
           <div class="split-copy">
             <h2>Os mestres do mercado</h2>
-            <p class="lead">Formação acadêmica forte e atuação real no mercado. Pressione Enter para revelar.</p>
+            <p class="lead">Formação acadêmica forte e atuação real no mercado. Use o botão ou Enter para revelar.</p>
             <div class="faculty-pair">
               <article class="faculty-card">
                 <h3>Prof. Rodrigo Cardoso</h3>
@@ -196,7 +196,10 @@
                 </ul>
               </article>
             </div>
-            <p class="reveal-hint" id="revealHint">Enter = próximo ponto · no fim, Enter vai ao próximo slide</p>
+            <div class="reveal-actions">
+              <button type="button" class="reveal-btn" id="btnReveal">Revelar próximo</button>
+              <p class="reveal-hint" id="revealHint">Enter = próximo ponto · no fim, Enter vai ao próximo slide</p>
+            </div>
           </div>
           <figure class="split-figure pos-lab">
             <img src="./assets/figures/03-campus.jpg" alt="Aula prática de programação na FAEX" />
@@ -241,16 +244,18 @@
     </section>
 
     <!-- 8. Robocode teaser -->
-    <section class="slide tpl-hero" data-slide="7" aria-label="Robocode" hidden>
+    <section class="slide tpl-hero hero-robo" data-slide="7" aria-label="Robocode" hidden>
       <div class="hero-media" aria-hidden="true">
-        <img src="./assets/figures/07-contato.jpg" alt="" style="object-position: center 30%;" />
+        <img src="./assets/figures/07-contato.jpg" alt="" />
       </div>
       <div class="hero-scrim" aria-hidden="true"></div>
       <div class="slide-inner">
-        <div class="hero-copy">
-          <span class="hero-badge">Próxima atividade</span>
-          <h1>Robocode:<br /><span class="gold">programe a estratégia do tanque</span></h1>
-          <p class="lead">Em breve vocês mandam na lógica do robô — quando atirar, para onde girar e como desviar. Código que vira batalha na tela.</p>
+        <div class="hero-panel">
+          <div class="hero-copy">
+            <span class="hero-badge">Próxima atividade</span>
+            <h1>Robocode:<br /><span class="gold">programe a estratégia do tanque</span></h1>
+            <p class="lead">Em breve vocês mandam na lógica do robô — quando atirar, para onde girar e como desviar. Código que vira batalha na tela.</p>
+          </div>
         </div>
       </div>
     </section>

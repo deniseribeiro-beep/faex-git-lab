@@ -26,7 +26,7 @@ Base: `/faex-git-lab/`
 ## Palestra ADS
 
 - `public/palestra-ads/`: apresentação HTML (projetor) com templates claros (hero / split / spotlight), enquete ao vivo, reveal de docentes, quiz em estilo arena e teaser Robocode.
-- Imagens wide/full-bleed em `public/palestra-ads/assets/figures/` (staging em `docs/figures/`).
+- Imagens wide/full-bleed em `public/palestra-ads/assets/figures/` (staging em `docs/figures/`). Exports futuros das figuras devem ser **16:9** (evitar 1:1) para encaixar bem com `object-fit: cover`.
 - Fontes em `docs/`: `Palestra ADS FAEX.pptx`, `Template_FAEX.pptx` (identidade visual).
 
 ## Executar
