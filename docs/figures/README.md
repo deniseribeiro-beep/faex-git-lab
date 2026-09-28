@@ -1,20 +1,14 @@
 # Figuras da palestra ADS
 
-Coloque as imagens aqui com os nomes abaixo. Em seguida, copie os mesmos arquivos para:
+Arquivos mapeados para os slides (também em `public/palestra-ads/assets/figures/`):
 
-`public/palestra-ads/assets/figures/`
+| Arquivo | Slide | Origem |
+|---|---|---|
+| `01-cover.jpg` | Capa | Gemini_Generated_Image_1 |
+| `02-mercado.jpg` | Por que a área de TI? | Gemini_Generated_Image_4 |
+| `03-campus.jpg` | Por que a FAEX? | foto do laboratório FAEX |
+| `04-labs.jpg` | Infraestrutura & prática | foto do laboratório FAEX |
+| `05-docentes.jpg` | Corpo docente | Gemini_Generated_Image_2 |
+| `07-contato.jpg` | Conheça a FAEX | Gemini_Generated_Image_3 |
 
-(é essa pasta que o site no GitHub Pages usa.)
-
-| Arquivo | Slide |
-|---|---|
-| `01-cover.jpg` | Capa |
-| `02-mercado.jpg` | Por que a área de TI? |
-| `03-campus.jpg` | Por que a FAEX? |
-| `04-labs.jpg` | Infraestrutura & prática |
-| `05-docentes.jpg` | Corpo docente |
-| `07-contato.jpg` | Conheça a FAEX |
-
-Formatos aceitos: `.jpg`, `.jpeg`, `.png` ou `.webp` (se mudar a extensão, atualize o `src` em `public/palestra-ads/index.html`).
-
-Enquanto o arquivo não existir, o slot de imagem fica oculto e o slide continua só com texto/cards.
+Os originais Gemini/watermarked podem permanecer nesta pasta. O site usa apenas os nomes `01`–`07` em `public/palestra-ads/assets/figures/`.
