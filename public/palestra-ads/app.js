@@ -258,4 +258,18 @@ quizBegin.addEventListener("click", startQuiz);
 quizNext.addEventListener("click", nextQuestion);
 quizRestart.addEventListener("click", startQuiz);
 
+/* Figures: show only when the image file exists */
+document.querySelectorAll("img.slide-media").forEach((img) => {
+  const figure = img.closest(".slide-figure");
+  if (!figure) return;
+  const markReady = () => figure.classList.add("is-ready");
+  const markEmpty = () => {
+    figure.classList.remove("is-ready");
+    figure.hidden = true;
+  };
+  img.addEventListener("load", markReady);
+  img.addEventListener("error", markEmpty);
+  if (img.complete && img.naturalWidth > 0) markReady();
+});
+
 go(0);

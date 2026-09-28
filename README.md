@@ -26,6 +26,7 @@ Base: `/faex-git-lab/`
 ## Palestra ADS
 
 - `public/palestra-ads/`: apresentação HTML (projetor) sobre o universo do desenvolvimento, slide **Por que a FAEX?** e quiz interativo (sem premiação).
+- Imagens: adicione em `docs/figures/` e copie para `public/palestra-ads/assets/figures/` (ver README em ambas as pastas).
 - Fontes em `docs/`: `Palestra ADS FAEX.pptx`, `Template_FAEX.pptx` (identidade visual).
 
 ## Executar
@@ -65,6 +66,7 @@ pnpm build
 - `lib/missions.ts`: conteúdo das missões.
 - `lib/progress.ts`: regras de progresso e persistência.
 - `docs/arquitetura.md`: decisões de arquitetura.
+- `docs/figures/`: staging das imagens da palestra.
 - `public/palestra-ads/`: palestra ADS (descoberta + quiz).
 - `public/flipflops/`, `public/ciclo-instrucao/`, `public/isa-rv32i/`: labs de Arquitetura.
 
