@@ -109,8 +109,34 @@ btnFs.addEventListener("click", () => {
   else document.exitFullscreen?.();
 });
 
+const btnExit = document.getElementById("btnExit");
+
+async function leavePresentation() {
+  if (document.fullscreenElement) {
+    try {
+      await document.exitFullscreen();
+    } catch {
+      /* ignore */
+    }
+  }
+  window.location.href = "../index.html";
+}
+
+btnExit.addEventListener("click", () => {
+  leavePresentation();
+});
+
 document.addEventListener("keydown", (e) => {
   if (e.target.matches("input, textarea, button.quiz-option")) return;
+  if (e.key === "Escape") {
+    e.preventDefault();
+    if (document.fullscreenElement) {
+      document.exitFullscreen?.();
+    } else {
+      leavePresentation();
+    }
+    return;
+  }
   if (e.key === "ArrowRight" || e.key === "PageDown" || e.key === " ") {
     e.preventDefault();
     go(index + 1);

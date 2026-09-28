@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Palestra de captação — Análise e Desenvolvimento de Sistemas | FAEX Extrema" />
+  <meta name="description" content="Palestra ADS — Análise e Desenvolvimento de Sistemas | FAEX Extrema" />
   <title>FAEX | ADS — Criando o Futuro com Código</title>
   <link rel="icon" type="image/svg+xml" href="../favicon.svg" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -25,6 +25,9 @@
       <button type="button" class="chrome-btn" id="btnPrev" aria-label="Slide anterior"><i class="fa-solid fa-chevron-left"></i></button>
       <button type="button" class="chrome-btn" id="btnNext" aria-label="Próximo slide"><i class="fa-solid fa-chevron-right"></i></button>
       <button type="button" class="chrome-btn" id="btnFs" aria-label="Tela cheia"><i class="fa-solid fa-expand"></i></button>
+      <button type="button" class="chrome-btn chrome-exit" id="btnExit" aria-label="Sair da apresentação" title="Voltar ao portal">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
     </div>
   </header>
 
@@ -227,22 +230,12 @@
     </section>
 
     <!-- 7. CTA -->
-    <section class="slide slide-dark slide-cta" data-slide="6" aria-label="Vestibular FAEX" hidden>
+    <section class="slide slide-dark slide-cta" data-slide="6" aria-label="Conheça a FAEX" hidden>
       <div class="slide-inner">
-        <p class="eyebrow gold">Conversão</p>
-        <h2>Dê o primeiro passo no Vestibular FAEX</h2>
-        <p class="lead tight">Inscrições abertas para Análise e Desenvolvimento de Sistemas. Transforme paixão por tecnologia em carreira.</p>
+        <p class="eyebrow gold">Próximos passos</p>
+        <h2>Quer viver isso na prática? Conheça a FAEX</h2>
+        <p class="lead tight">Continue explorando o universo do desenvolvimento — e fale com a gente se quiser saber mais sobre ADS em Extrema.</p>
         <div class="cta-grid">
-          <div class="qr-block">
-            <img
-              id="ctaQr"
-              src="https://api.qrserver.com/v1/create-qr-code/?size=220x220&amp;data=https%3A%2F%2Fwww.faex.edu.br"
-              width="220"
-              height="220"
-              alt="QR Code para o site da FAEX"
-            />
-            <span>Escaneie e acesse faex.edu.br</span>
-          </div>
           <div class="cta-contacts">
             <a class="contact-row" href="https://www.faex.edu.br" target="_blank" rel="noopener">
               <i class="fa-solid fa-globe"></i>
@@ -264,7 +257,7 @@
   </main>
 
   <nav class="dots" id="dots" aria-label="Navegação dos slides"></nav>
-  <p class="hint">← → para navegar · F para tela cheia</p>
+  <p class="hint">← → navegar · F tela cheia · Esc sair</p>
 
   <script src="./app.js" defer></script>
 </body>

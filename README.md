@@ -1,6 +1,6 @@
 # FAEX Git Lab
 
-Portal educacional da FAEX com simulador de Git, laboratórios de Arquitetura de Computadores e palestra de captação do curso de Análise e Desenvolvimento de Sistemas (ADS).
+Portal educacional da FAEX com simulador de Git, laboratórios de Arquitetura de Computadores e palestra interativa do curso de Análise e Desenvolvimento de Sistemas (ADS).
 
 Tudo roda no navegador, sem login. O progresso do Git Lab fica no `localStorage`.
 
@@ -23,9 +23,9 @@ Base: `/faex-git-lab/`
 - `public/ciclo-instrucao/`: Semana 06 — organização funcional, barramentos, ciclo de instrução e rastro arquitetural.
 - `public/isa-rv32i/`: Semana 07 — ISA, formatos R/I/S/B/U/J, codificação, decodificação e vetores do subconjunto MiniRV.
 
-## Palestra de captação ADS
+## Palestra ADS
 
-- `public/palestra-ads/`: apresentação HTML (projetor) com narrativa de captação, slide **Por que a FAEX?** e quiz interativo (sem premiação).
+- `public/palestra-ads/`: apresentação HTML (projetor) sobre o universo do desenvolvimento, slide **Por que a FAEX?** e quiz interativo (sem premiação).
 - Fontes em `docs/`: `Palestra ADS FAEX.pptx`, `Template_FAEX.pptx` (identidade visual).
 
 ## Executar
@@ -65,7 +65,7 @@ pnpm build
 - `lib/missions.ts`: conteúdo das missões.
 - `lib/progress.ts`: regras de progresso e persistência.
 - `docs/arquitetura.md`: decisões de arquitetura.
-- `public/palestra-ads/`: palestra de captação ADS.
+- `public/palestra-ads/`: palestra ADS (descoberta + quiz).
 - `public/flipflops/`, `public/ciclo-instrucao/`, `public/isa-rv32i/`: labs de Arquitetura.
 
 ## Publicação

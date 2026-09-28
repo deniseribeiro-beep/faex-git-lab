@@ -1,16 +1,6 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 80" role="img" aria-label="FAEX Faculdade de Extrema">
-  <defs>
-    <style>
-      .brand { font-family: Arial Black, Arial, Helvetica, sans-serif; font-weight: 900; }
-      .sub { font-family: Arial, Helvetica, sans-serif; font-weight: 700; letter-spacing: 0.28em; }
-    </style>
-  </defs>
-  <text class="brand" x="0" y="48" font-size="48" fill="#FFFFFF">FAE</text>
-  <g transform="translate(122 6)">
-    <path d="M22 2 L42 2 L50 58 L10 58 Z" fill="#FBBA26"/>
-    <circle cx="26" cy="18" r="7" fill="#003B70"/>
-    <path d="M18 28c4-5 12-5 16 0l4 30H14z" fill="#003B70"/>
-    <text class="brand" x="4" y="46" font-size="48" fill="#FFFFFF">X</text>
-  </g>
-  <text class="sub" x="2" y="72" font-size="12" fill="#CBD5E1">FACULDADE DE EXTREMA</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 72" role="img" aria-label="FAEX Faculdade de Extrema">
+  <text x="0" y="42" font-family="Arial Black, Arial, Helvetica, sans-serif" font-size="40" font-weight="900" fill="#FFFFFF" letter-spacing="1">FAE</text>
+  <text x="118" y="42" font-family="Arial Black, Arial, Helvetica, sans-serif" font-size="40" font-weight="900" fill="#FBBA26" letter-spacing="1">X</text>
+  <rect x="0" y="50" width="36" height="3" rx="1.5" fill="#FBBA26"/>
+  <text x="0" y="68" font-family="Arial, Helvetica, sans-serif" font-size="11" font-weight="700" fill="#CBD5E1" letter-spacing="3.2">FACULDADE DE EXTREMA</text>
 </svg>
