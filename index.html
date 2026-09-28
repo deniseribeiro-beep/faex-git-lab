@@ -1,15 +1,89 @@
 <!doctype html>
 <html lang="pt-BR">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Simulador visual de Git para Engenharia de Software da FAEX." />
-    <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
-    <title>FAEX Git Lab</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
-</html>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Portal educacional FAEX — palestra ADS, Git Lab e laboratórios de Arquitetura de Computadores." />
+  <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
+  <title>FAEX Portal Educacional</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@600;800;900&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+  <link rel="stylesheet" href="./portal/style.css" />
+</head>
+<body>
+  <div class="page">
+    <header class="hero">
+      <div class="hero-geo" aria-hidden="true">
+        <span class="band b1"></span>
+        <span class="band b2"></span>
+        <span class="wedge"></span>
+      </div>
+      <div class="hero-content">
+        <img class="logo" src="./palestra-ads/assets/faex-logo.svg" alt="FAEX Faculdade de Extrema" />
+        <p class="eyebrow">Portal educacional</p>
+        <h1>Laboratórios &amp; Captação <span>ADS</span></h1>
+        <p class="lead">Acesse a palestra de captação, o simulador de Git e os labs de Arquitetura de Computadores em um só lugar.</p>
+      </div>
+    </header>
 
+    <main class="grid" aria-label="Recursos disponíveis">
+      <a class="card featured" href="./palestra-ads/">
+        <div class="icon"><i class="fa-solid fa-bullhorn"></i></div>
+        <div>
+          <p class="tag">Captação</p>
+          <h2>Palestra ADS</h2>
+          <p>Apresentação de captação com quiz interativo — Extrema e região.</p>
+        </div>
+        <span class="go">Abrir <i class="fa-solid fa-arrow-right"></i></span>
+      </a>
+
+      <a class="card" href="./git-lab/">
+        <div class="icon"><i class="fa-solid fa-code-branch"></i></div>
+        <div>
+          <p class="tag">Engenharia de Software</p>
+          <h2>Git Lab</h2>
+          <p>Simulador visual de Git com missões progressivas no navegador.</p>
+        </div>
+        <span class="go">Abrir <i class="fa-solid fa-arrow-right"></i></span>
+      </a>
+
+      <a class="card" href="./flipflops/">
+        <div class="icon"><i class="fa-solid fa-microchip"></i></div>
+        <div>
+          <p class="tag">Arquitetura · Semana 05</p>
+          <h2>Flip-flops</h2>
+          <p>Lógica sequencial, latches, registradores e Program Counter.</p>
+        </div>
+        <span class="go">Abrir <i class="fa-solid fa-arrow-right"></i></span>
+      </a>
+
+      <a class="card" href="./ciclo-instrucao/">
+        <div class="icon"><i class="fa-solid fa-rotate"></i></div>
+        <div>
+          <p class="tag">Arquitetura · Semana 06</p>
+          <h2>Ciclo de instrução</h2>
+          <p>Organização funcional, barramentos e rastro arquitetural.</p>
+        </div>
+        <span class="go">Abrir <i class="fa-solid fa-arrow-right"></i></span>
+      </a>
+
+      <a class="card" href="./isa-rv32i/">
+        <div class="icon"><i class="fa-solid fa-file-code"></i></div>
+        <div>
+          <p class="tag">Arquitetura · Semana 07</p>
+          <h2>ISA RV32I</h2>
+          <p>Formatos R/I/S/B/U/J, codificação e vetores MiniRV.</p>
+        </div>
+        <span class="go">Abrir <i class="fa-solid fa-arrow-right"></i></span>
+      </a>
+    </main>
+
+    <footer>
+      <span>FAEX · Extrema-MG</span>
+      <a href="https://www.faex.edu.br" target="_blank" rel="noopener">www.faex.edu.br</a>
+    </footer>
+  </div>
+</body>
+</html>

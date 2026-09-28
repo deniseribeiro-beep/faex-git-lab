@@ -1,0 +1,271 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Palestra de captação — Análise e Desenvolvimento de Sistemas | FAEX Extrema" />
+  <title>FAEX | ADS — Criando o Futuro com Código</title>
+  <link rel="icon" type="image/svg+xml" href="../favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;700;800;900&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+  <link rel="stylesheet" href="./style.css" />
+</head>
+<body>
+  <a class="skip-link" href="#deck">Ir para a apresentação</a>
+
+  <header class="deck-chrome">
+    <a class="chrome-brand" href="../index.html">
+      <img src="./assets/faex-logo.svg" alt="FAEX" height="36" />
+    </a>
+    <div class="chrome-progress" aria-hidden="true"><i id="progressBar"></i></div>
+    <div class="chrome-actions">
+      <span id="slideCounter" class="slide-counter">1 / 7</span>
+      <button type="button" class="chrome-btn" id="btnPrev" aria-label="Slide anterior"><i class="fa-solid fa-chevron-left"></i></button>
+      <button type="button" class="chrome-btn" id="btnNext" aria-label="Próximo slide"><i class="fa-solid fa-chevron-right"></i></button>
+      <button type="button" class="chrome-btn" id="btnFs" aria-label="Tela cheia"><i class="fa-solid fa-expand"></i></button>
+    </div>
+  </header>
+
+  <main id="deck" class="deck" tabindex="-1">
+
+    <!-- 1. Capa -->
+    <section class="slide slide-dark slide-cover is-active" data-slide="0" aria-label="Capa">
+      <div class="cover-geo" aria-hidden="true">
+        <span class="geo-band geo-band-1"></span>
+        <span class="geo-band geo-band-2"></span>
+        <span class="geo-wedge"></span>
+      </div>
+      <div class="slide-inner cover-inner">
+        <p class="eyebrow gold">Análise e Desenvolvimento de Sistemas</p>
+        <h1>O Mundo de TI:<br /><span class="gold">Criando o Futuro com Código</span></h1>
+        <p class="lead">Bem-vindos à FAEX — a tecnologia na prática, com quem forma profissionais há 15 anos em Extrema.</p>
+        <div class="cover-meta">
+          <img class="cover-logo" src="./assets/faex-logo.svg" alt="FAEX Faculdade de Extrema" />
+          <div>
+            <strong>Profa. Denise Ribeiro</strong>
+            <span>ADS FAEX · Eng. de Computação · Mestranda em Ciência de Dados</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. Por que TI -->
+    <section class="slide slide-dark" data-slide="1" aria-label="Por que a área de TI" hidden>
+      <div class="slide-inner">
+        <p class="eyebrow gold">Oportunidade</p>
+        <h2>Por que a área de TI?</h2>
+        <p class="lead tight">O mercado não para de crescer. Quem não se atualizar estará fora do jogo.</p>
+        <div class="card-grid four">
+          <article class="info-card dark">
+            <i class="fa-solid fa-chart-line"></i>
+            <h3>Mercado aquecido</h3>
+            <p>Mais vagas abertas do que profissionais qualificados.</p>
+          </article>
+          <article class="info-card dark">
+            <i class="fa-solid fa-globe"></i>
+            <h3>Carreira global</h3>
+            <p>Home office e projetos para empresas do mundo todo.</p>
+          </article>
+          <article class="info-card dark">
+            <i class="fa-solid fa-robot"></i>
+            <h3>IA &amp; dados</h3>
+            <p>TikTok, ChatGPT e carros autônomos: tudo é código.</p>
+          </article>
+          <article class="info-card dark accent">
+            <i class="fa-solid fa-bolt"></i>
+            <h3>A hora é agora</h3>
+            <p>Quem começa hoje entra no jogo com vantagem.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. Por que a FAEX -->
+    <section class="slide slide-light" data-slide="2" aria-label="Por que a FAEX" hidden>
+      <div class="slide-inner">
+        <p class="eyebrow">Autoridade · Extrema-MG</p>
+        <h2>Por que a FAEX?</h2>
+        <p class="lead tight dark-text">A <strong>única</strong> faculdade presencial de Extrema. 15 anos de tradição e resultados comprovados na região.</p>
+        <div class="card-grid five">
+          <article class="info-card">
+            <i class="fa-solid fa-building-columns"></i>
+            <h3>Única presencial</h3>
+            <p>Formação presencial de verdade em Extrema e região.</p>
+          </article>
+          <article class="info-card">
+            <i class="fa-solid fa-award"></i>
+            <h3>15 anos</h3>
+            <p>Tradição sólida e empregabilidade comprovada.</p>
+          </article>
+          <article class="info-card">
+            <i class="fa-solid fa-laptop-code"></i>
+            <h3>Labs de ponta</h3>
+            <p>Laboratórios físicos, biblioteca e salas preparadas.</p>
+          </article>
+          <article class="info-card">
+            <i class="fa-solid fa-hand-holding-dollar"></i>
+            <h3>Mensalidade acessível</h3>
+            <p>Investimento viável para acelerar sua carreira.</p>
+          </article>
+          <article class="info-card highlight">
+            <i class="fa-solid fa-clock"></i>
+            <h3>2,5 anos</h3>
+            <p>Tecnólogo rápido · Diurno e Noturno.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. Infraestrutura & prática -->
+    <section class="slide slide-light" data-slide="3" aria-label="Infraestrutura e prática" hidden>
+      <div class="slide-inner">
+        <p class="eyebrow">Tangibilidade</p>
+        <h2>Infraestrutura &amp; ensino mão na massa</h2>
+        <p class="lead tight dark-text">ADS 100% prático: você cria aplicações reais — não só teoria no quadro.</p>
+        <div class="split-grid">
+          <div class="card-grid two">
+            <article class="info-card">
+              <i class="fa-solid fa-server"></i>
+              <h3>Labs de informática</h3>
+              <p>Máquinas modernas para programar, testar e entregar.</p>
+            </article>
+            <article class="info-card">
+              <i class="fa-solid fa-book-open"></i>
+              <h3>Biblioteca &amp; salas</h3>
+              <p>Ambiente presencial que faz a diferença no aprendizado.</p>
+            </article>
+            <article class="info-card">
+              <i class="fa-solid fa-code"></i>
+              <h3>Projetos reais</h3>
+              <p>Apps, lógica de jogos (Robocode) e fundamentos de IA.</p>
+            </article>
+            <article class="info-card">
+              <i class="fa-solid fa-sun"></i>
+              <h3>Diurno ou Noturno</h3>
+              <p>Flexibilidade para quem trabalha ou está no ensino médio.</p>
+            </article>
+          </div>
+          <aside class="stat-panel">
+            <div class="stat"><b>2,5</b><span>anos até o diploma</span></div>
+            <div class="stat"><b>100%</b><span>foco prático em ADS</span></div>
+            <div class="stat"><b>15</b><span>anos formando a região</span></div>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. Corpo docente -->
+    <section class="slide slide-dark" data-slide="4" aria-label="Corpo docente" hidden>
+      <div class="slide-inner">
+        <p class="eyebrow gold">Confiança</p>
+        <h2>Os mestres do mercado</h2>
+        <p class="lead tight">Formação acadêmica de destaque e atuação real no mercado de trabalho.</p>
+        <div class="faculty-grid">
+          <article class="faculty-card">
+            <div class="faculty-avatar"><i class="fa-solid fa-user-tie"></i></div>
+            <div>
+              <h3>Prof. Rodrigo Cardoso</h3>
+              <p class="role">Coordenação · ADS FAEX</p>
+              <ul>
+                <li>Docente atuante no mercado de TI</li>
+                <li>Conecta a sala de aula às exigências das empresas</li>
+                <li>Contato: rodrigo.cardoso@faex.edu.br</li>
+              </ul>
+            </div>
+          </article>
+          <article class="faculty-card">
+            <div class="faculty-avatar"><i class="fa-solid fa-user-graduate"></i></div>
+            <div>
+              <h3>Profa. Denise Ribeiro</h3>
+              <p class="role">Docente ADS · Mestranda em Ciência de Dados</p>
+              <ul>
+                <li>Ex-aluna ADS FAEX (2017) — da mesma cadeira que você</li>
+                <li>Engenharia de Computação · pós em Mainframe</li>
+                <li>Trajetória acadêmica + mercado na prática</li>
+              </ul>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- 6. Quiz -->
+    <section class="slide slide-light slide-quiz" data-slide="5" aria-label="Quiz interativo" hidden>
+      <div class="slide-inner quiz-inner">
+        <p class="eyebrow">Momento interativo</p>
+        <h2>Hora do game: quem sabe mais sobre tecnologia?</h2>
+        <p class="lead tight dark-text">7 perguntas rápidas. Sem premiação — o prêmio é descobrir se a TI é a sua praia.</p>
+
+        <div id="quizApp" class="quiz-app">
+          <div id="quizStart" class="quiz-panel">
+            <i class="fa-solid fa-gamepad quiz-hero-icon"></i>
+            <p>Prepare-se: mercado, código, FAEX e curiosidades de TI.</p>
+            <button type="button" class="btn primary" id="quizBegin">Começar o quiz</button>
+          </div>
+
+          <div id="quizPlay" class="quiz-panel" hidden>
+            <div class="quiz-meta">
+              <span id="quizProgress">Pergunta 1 de 7</span>
+              <span id="quizScore">Acertos: 0</span>
+            </div>
+            <h3 id="quizQuestion" class="quiz-question"></h3>
+            <div id="quizOptions" class="quiz-options" role="group" aria-label="Alternativas"></div>
+            <p id="quizFeedback" class="quiz-feedback" role="status" hidden></p>
+            <button type="button" class="btn primary" id="quizNext" hidden>Próxima</button>
+          </div>
+
+          <div id="quizResult" class="quiz-panel result" hidden>
+            <i class="fa-solid fa-trophy quiz-hero-icon gold-icon"></i>
+            <h3 id="quizResultTitle">Resultado</h3>
+            <p id="quizResultText" class="lead dark-text"></p>
+            <button type="button" class="btn primary" id="quizRestart">Jogar de novo</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 7. CTA -->
+    <section class="slide slide-dark slide-cta" data-slide="6" aria-label="Vestibular FAEX" hidden>
+      <div class="slide-inner">
+        <p class="eyebrow gold">Conversão</p>
+        <h2>Dê o primeiro passo no Vestibular FAEX</h2>
+        <p class="lead tight">Inscrições abertas para Análise e Desenvolvimento de Sistemas. Transforme paixão por tecnologia em carreira.</p>
+        <div class="cta-grid">
+          <div class="qr-block">
+            <img
+              id="ctaQr"
+              src="https://api.qrserver.com/v1/create-qr-code/?size=220x220&amp;data=https%3A%2F%2Fwww.faex.edu.br"
+              width="220"
+              height="220"
+              alt="QR Code para o site da FAEX"
+            />
+            <span>Escaneie e acesse faex.edu.br</span>
+          </div>
+          <div class="cta-contacts">
+            <a class="contact-row" href="https://www.faex.edu.br" target="_blank" rel="noopener">
+              <i class="fa-solid fa-globe"></i>
+              <div><strong>Website</strong><span>www.faex.edu.br</span></div>
+            </a>
+            <a class="contact-row" href="https://wa.me/5535988468374" target="_blank" rel="noopener">
+              <i class="fa-brands fa-whatsapp"></i>
+              <div><strong>WhatsApp / Telefone</strong><span>(35) 9 8846-8374 · (35) 3435-3988</span></div>
+            </a>
+            <a class="contact-row" href="mailto:rodrigo.cardoso@faex.edu.br">
+              <i class="fa-solid fa-envelope"></i>
+              <div><strong>Coordenação</strong><span>rodrigo.cardoso@faex.edu.br</span></div>
+            </a>
+            <p class="cta-note">Esperamos por você na FAEX — Extrema-MG.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <nav class="dots" id="dots" aria-label="Navegação dos slides"></nav>
+  <p class="hint">← → para navegar · F para tela cheia</p>
+
+  <script src="./app.js" defer></script>
+</body>
+</html>
