@@ -222,7 +222,7 @@ function pick(choice, btn) {
   if (choice === item.answer) {
     score += 1;
     btn.classList.add("correct");
-    quizFeedback.textContent = "Correto!";
+    quizFeedback.textContent = "✓ Correto!";
     quizFeedback.classList.add("ok");
   } else {
     btn.classList.add("wrong");
