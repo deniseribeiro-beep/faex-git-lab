@@ -460,9 +460,22 @@ h3 { font-size: 1.05rem; font-weight: 800; }
 .faculty-card .role {
   color: var(--blue);
   font-weight: 700;
-  margin: 0 0 10px;
+  margin: 0 0 8px;
   font-size: 0.9rem;
 }
+.faculty-contact {
+  display: grid;
+  gap: 4px;
+  margin: 0 0 10px;
+}
+.faculty-contact a {
+  color: var(--navy);
+  font-size: 0.82rem;
+  font-weight: 700;
+  text-decoration: none;
+  word-break: break-word;
+}
+.faculty-contact a:hover { color: var(--amber); }
 .faculty-card ul {
   margin: 0;
   padding-left: 18px;
@@ -565,11 +578,16 @@ h3 { font-size: 1.05rem; font-weight: 800; }
   color: var(--ink);
   border-radius: 16px;
   padding: clamp(14px, 2vh, 22px);
+  padding-bottom: clamp(18px, 2.4vh, 28px);
   box-shadow: 0 12px 36px #003b7040;
   min-height: 0;
-  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: auto;
 }
-.quiz-panel { text-align: center; }
+.quiz-panel {
+  text-align: center;
+  padding-bottom: 8px;
+}
 .quiz-panel[hidden] { display: none !important; }
 .quiz-countdown {
   font-family: var(--font-display);
@@ -623,7 +641,7 @@ h3 { font-size: 1.05rem; font-weight: 800; }
   color: #991b1b;
 }
 .quiz-feedback {
-  margin: 12px auto 0;
+  margin: 12px auto 4px;
   font-weight: 800;
   font-size: 1.05rem;
   max-width: 28rem;
@@ -712,4 +730,7 @@ h3 { font-size: 1.05rem; font-weight: 800; }
   .split-figure { max-height: 24vh; }
   .poll-btn { min-height: 48px; padding: 10px 14px; }
   .quiz-option { padding: 8px 12px; }
+  .quiz-options { gap: 6px; }
+  .quiz-feedback { margin-top: 8px; padding: 8px 12px; font-size: 0.98rem; }
+  .quiz-app { padding-bottom: 22px; }
 }
