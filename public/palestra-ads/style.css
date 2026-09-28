@@ -200,11 +200,28 @@ h3 { font-size: 1.05rem; font-weight: 800; }
   display: flex;
   align-items: center;
   gap: 12px;
-  margin-top: 18px;
+  margin-top: 14px;
 }
 .hero-meta img { height: 38px; width: auto; }
 .hero-meta strong { display: block; font-family: var(--font-display); }
 .hero-meta span { color: #94a3b8; font-size: 0.9rem; font-weight: 600; }
+.hero-people {
+  display: grid;
+  gap: 10px;
+  margin-top: 16px;
+}
+.hero-person strong {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 1rem;
+}
+.hero-person span {
+  color: #94a3b8;
+  font-size: 0.88rem;
+  font-weight: 600;
+}
+.hero-person.is-main strong { color: var(--gold); font-size: 1.08rem; }
+.hero-person.is-host strong { color: #e2e8f0; font-size: 0.95rem; }
 .hero-badge {
   display: inline-block;
   margin-bottom: 10px;
@@ -218,6 +235,7 @@ h3 { font-size: 1.05rem; font-weight: 800; }
   letter-spacing: 0.06em;
   text-transform: uppercase;
 }
+.gold-ink { color: var(--blue); }
 
 /* ---- Template: Split ---- */
 .tpl-split {
@@ -496,6 +514,58 @@ h3 { font-size: 1.05rem; font-weight: 800; }
   transform: none;
   margin-top: 6px;
 }
+.pillar-card.reveal.is-shown {
+  max-height: 280px;
+  margin-top: 0;
+}
+
+/* Pilares */
+.pillar-pair {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 16px;
+  width: 100%;
+  min-width: 0;
+  flex: 1;
+  align-content: center;
+}
+.pillar-card {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 18px 16px;
+  min-width: 0;
+}
+.pillar-card > i {
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  display: grid;
+  place-items: center;
+  background: #e8f0ff;
+  color: var(--navy);
+  margin-bottom: 10px;
+}
+.pillar-card h3 { margin-bottom: 6px; }
+.pillar-card p {
+  margin: 0;
+  color: var(--muted);
+  font-weight: 600;
+  line-height: 1.35;
+  font-size: 0.95rem;
+}
+.pillar-ex {
+  display: block;
+  margin-top: 10px;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 0.85rem;
+  color: var(--blue);
+}
+.faculty-card-main {
+  border-color: var(--amber);
+  box-shadow: 0 0 0 2px #f59e0b22;
+}
 .reveal-actions {
   display: flex;
   flex-wrap: wrap;
@@ -562,6 +632,148 @@ h3 { font-size: 1.05rem; font-weight: 800; }
 }
 .contact-row strong { display: block; font-family: var(--font-display); }
 .contact-row span { color: var(--muted); font-weight: 600; font-size: 0.9rem; }
+.contact-list-compact {
+  margin-top: 12px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+/* Brinde badge */
+.brinde-badge {
+  display: inline-block;
+  margin-bottom: 10px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #f59e0b33, #fbba2633);
+  border: 1px solid var(--amber);
+  color: #92400e;
+  font-family: var(--font-display);
+  font-size: 0.8rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+/* Dúvidas */
+.tpl-qa {
+  background: linear-gradient(160deg, #091527, var(--navy) 55%, #0b1f3a);
+  color: #f8fafc;
+}
+.tpl-qa .slide-inner {
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+.tpl-qa .lead { color: #cbd5e1; margin-inline: auto; }
+.qa-stage {
+  max-width: 40rem;
+  width: 100%;
+  padding: clamp(20px, 4vh, 40px);
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 20px 50px #00000044;
+}
+.qa-badge {
+  display: inline-block;
+  margin-bottom: 12px;
+  padding: 5px 10px;
+  border-radius: 999px;
+  background: #f59e0b33;
+  color: var(--gold);
+  font-family: var(--font-display);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.qa-hint {
+  margin: 18px 0 0;
+  color: #94a3b8;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+/* Vestibular + partners */
+.tpl-cta {
+  background: linear-gradient(180deg, #f8fafc, #eef4fa);
+}
+.tpl-cta .slide-inner {
+  justify-content: flex-start;
+  gap: 10px;
+  overflow-y: auto;
+}
+.vestibular-cta {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-template-rows: auto auto;
+  column-gap: 14px;
+  align-items: center;
+  text-decoration: none;
+  color: #fff;
+  background: linear-gradient(135deg, var(--navy), var(--blue));
+  border-radius: 16px;
+  padding: 16px 18px;
+  box-shadow: 0 12px 28px #003b7033;
+  transition: transform 0.15s, box-shadow 0.15s;
+  max-width: 36rem;
+}
+.vestibular-cta:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 16px 32px #f59e0b44;
+}
+.vestibular-cta i {
+  grid-row: 1 / span 2;
+  font-size: 1.6rem;
+  color: var(--gold);
+}
+.vestibular-cta span {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 1.15rem;
+}
+.vestibular-cta small {
+  color: #bfdbfe;
+  font-weight: 600;
+}
+.partners-title {
+  margin-top: 8px;
+  color: var(--navy);
+}
+.partner-grid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 10px;
+  width: 100%;
+  min-width: 0;
+}
+.partner-card {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 12px 10px;
+  text-decoration: none;
+  color: inherit;
+  min-width: 0;
+  transition: border-color 0.15s, box-shadow 0.15s, transform 0.15s;
+}
+a.partner-card:hover {
+  border-color: var(--amber);
+  box-shadow: 0 8px 18px #f59e0b28;
+  transform: translateY(-1px);
+}
+.partner-card strong {
+  font-family: var(--font-display);
+  font-size: 0.92rem;
+  color: var(--navy);
+}
+.partner-card span {
+  color: var(--muted);
+  font-size: 0.78rem;
+  font-weight: 600;
+}
 
 /* ---- Template: Arena / Quiz ---- */
 .tpl-arena {
@@ -711,7 +923,9 @@ h3 { font-size: 1.05rem; font-weight: 800; }
 }
 
 @media (max-width: 1000px) {
-  .split-grid, .spotlight-grid, .faculty-pair { grid-template-columns: minmax(0, 1fr); }
+  .split-grid, .spotlight-grid, .faculty-pair, .pillar-pair { grid-template-columns: minmax(0, 1fr); }
+  .partner-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .contact-list-compact { grid-template-columns: 1fr; }
   .split-figure {
     max-height: 32vh;
     justify-self: stretch;
@@ -725,6 +939,7 @@ h3 { font-size: 1.05rem; font-weight: 800; }
   .hero-meta { flex-direction: column; align-items: flex-start; }
   .hero-panel { padding: 14px; }
   .poll-btn { min-height: 52px; font-size: 1rem; }
+  .partner-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 @media (max-height: 700px) {
   .split-figure { max-height: 24vh; }

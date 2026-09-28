@@ -1,56 +1,11 @@
 const QUESTIONS = [
   {
-    q: "Quantas linhas de código existem aproximadamente em um jogo moderno de grande porte (como Fortnite ou GTA V)?",
+    q: "O que significa ADS?",
     options: [
-      "Cerca de 10 mil linhas",
-      "Cerca de 100 mil linhas",
-      "Entre 10 e 50 milhões de linhas",
-      "Jogos modernos não usam linhas de código, apenas gráficos",
-    ],
-    answer: 2,
-  },
-  {
-    q: "O que está por trás do algoritmo de recomendação do TikTok, do ChatGPT e dos carros autônomos?",
-    options: [
-      "Apenas design gráfico e animação",
-      "Inteligência Artificial e Ciência de Dados",
-      "Peças físicas e manutenção de hardware",
-      "Redes de Wi-Fi de alta velocidade",
-    ],
-    answer: 1,
-  },
-  {
-    q: "Em quanto tempo você conclui o curso Superior de ADS na FAEX para já sair com diploma e entrar no mercado?",
-    options: ["5 anos", "4 anos", "2,5 anos (2 anos e meio)", "1 ano"],
-    answer: 2,
-  },
-  {
-    q: 'Por que chamamos uma falha ou erro no código de "BUG"?',
-    options: [
-      'Porque significa "Busca Única Global"',
-      "Porque em 1947 uma mariposa de verdade travou um computador gigante",
-      "É uma gíria criada pelos jogadores de Counter-Strike",
-      "Foi o nome do primeiro vírus de computador criado",
-    ],
-    answer: 1,
-  },
-  {
-    q: "Qual é uma das maiores vantagens da carreira de Desenvolvedor de Software no mercado atual?",
-    options: [
-      "Precisar trabalhar apenas com papel e caneta",
-      "Possibilidade de trabalhar de casa (Home Office) para empresas do mundo todo",
-      "O mercado tem mais profissionais do que vagas abertas",
-      "Não precisar aprender novas tecnologias",
-    ],
-    answer: 1,
-  },
-  {
-    q: "O que um programador precisa definir para fazer um robô virtual vencer uma batalha?",
-    options: [
-      "Torcer para ter sorte",
-      "Programar a lógica de decisões (quando atirar, para onde girar e como desviar)",
-      "Clicar o mais rápido possível na tela",
-      "Comprar itens pagos dentro do jogo",
+      "Administração de Dados Simplificados",
+      "Análise e Desenvolvimento de Sistemas",
+      "Aplicativos Digitais e Software",
+      "Automação de Dispositivos Sensores",
     ],
     answer: 1,
   },
@@ -63,6 +18,16 @@ const QUESTIONS = [
       "Em absolutamente tudo: de jogos e medicina a carros autônomos, agricultura e Inteligência Artificial!",
     ],
     answer: 3,
+  },
+  {
+    q: "Qual a única faculdade presencial de ADS em Extrema?",
+    options: [
+      "Nenhuma — só há cursos EAD na região",
+      "Várias faculdades presenciais oferecem ADS",
+      "FAEX — Faculdade de Extrema",
+      "Somente universidades estaduais",
+    ],
+    answer: 2,
   },
 ];
 
@@ -96,9 +61,10 @@ function revealItems() {
 }
 
 function syncRevealUi() {
+  const slide = currentSlide();
   const items = revealItems();
-  const hint = document.getElementById("revealHint");
-  const btn = document.getElementById("btnReveal");
+  const hint = slide?.querySelector(".reveal-hint");
+  const btn = slide?.querySelector(".reveal-btn");
   const done = revealStep >= items.length - 1 && items.length > 0;
   if (hint) {
     hint.textContent = done
@@ -176,8 +142,12 @@ btnFs.addEventListener("click", () => {
   else document.exitFullscreen?.();
 });
 btnExit.addEventListener("click", () => leavePresentation());
-document.getElementById("btnReveal")?.addEventListener("click", () => {
-  if (isRevealSlide()) advanceReveal();
+document.addEventListener("click", (e) => {
+  const btn = e.target.closest(".reveal-btn");
+  if (!btn) return;
+  if (!isRevealSlide()) return;
+  if (!currentSlide().contains(btn)) return;
+  advanceReveal();
 });
 
 document.addEventListener("keydown", (e) => {
@@ -372,8 +342,8 @@ function finishQuiz() {
   showPanel(quizResult);
   quizResultTitle.textContent = `${score} de ${QUESTIONS.length} acertos`;
   let msg = "Bom começo — a curiosidade já te coloca no caminho da TI.";
-  if (score >= 6) msg = "Excelente! Você pensa como quem vai mandar bem em ADS.";
-  else if (score >= 4) msg = "Muito bem! Com a prática da FAEX, você acelera rápido.";
+  if (score === QUESTIONS.length) msg = "Excelente! Brinde merecido — você mandou bem na arena.";
+  else if (score >= 2) msg = "Muito bem! Com a prática da FAEX, você acelera rápido.";
   quizResultText.textContent = msg;
 }
 
